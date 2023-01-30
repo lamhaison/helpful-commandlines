@@ -16,4 +16,6 @@ peco version v0.5.10 (built with go1.19.2)
 
 ## Settings when open terminal (I am using iterm)
 ```
+mkdir -p /opt/lamhaison-tools
+git clone git@github.com:lamhaison/helpful-commandlines.git
 echo "source /opt/lamhaison-tools/helpful-commandlines/main.sh" >> ~/.bashrc
