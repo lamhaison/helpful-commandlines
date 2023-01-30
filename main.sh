@@ -14,5 +14,8 @@ done
 zle -N peco_select_history
 bindkey '^r' peco_select_history
 
+zle -N lamhaison_help
+bindkey '^h' lamhaison_help
+
 # zle -N aws_assume_role_set_name_with_hint
 # bindkey '^@' aws_assume_role_set_name_with_hint
