@@ -7,7 +7,7 @@ function peco_select_history() {
 	else
 		tac="tail -r"
 	fi
-	BUFFER=$(history -n 1 |
+	BUFFER=$(history -n 1 | uniq |
 		eval $tac |
 		peco --query "$LBUFFER")
 	# Move the cursor at then end of the input($#variable_name is to get the length itself)
