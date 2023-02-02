@@ -27,7 +27,7 @@ setopt HIST_BEEP            # Beep when accessing nonexistent history.
 # Import sub-commandline.
 # https://yukimemi.netlify.app/all-you-need-is-peco/
 # https://thevaluable.dev/zsh-line-editor-configuration-mouseless/
-for module in $(echo "common"); do
+for module in $(echo "common services terraform docker"); do
 	for script in $(ls ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/${module}); do
 		source ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/${module}/${script}
 	done
