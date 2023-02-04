@@ -5,6 +5,7 @@ function peco_select_history() {
 	if which tac >/dev/null; then
 		tac="tac"
 	else
+		# Displays the output from the end of the file in reverse order.
 		tac="tail -r"
 	fi
 	BUFFER=$(history -n 1 | uniq |
