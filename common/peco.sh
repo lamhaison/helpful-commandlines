@@ -19,3 +19,9 @@ function peco_select_history() {
 function peco_history() {
 	peco_select_history
 }
+
+function peco_repo_list() {
+	project_list=$(find ${LAMHAISON_PROJECTS_DIR} -type d -name ".git" -maxdepth 6 | awk -F ".git" '{ print $1}')
+	input_project=$(echo ${project_list} | peco)
+	echo ${input_project}
+}
