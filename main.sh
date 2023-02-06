@@ -24,7 +24,7 @@ setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY          # Don't execute immediately upon history expansion.
 setopt HIST_BEEP            # Beep when accessing nonexistent history.
 
-export LAMHAISON_PROJECTS_DIR=/Users/lamhaison/projects
+export LAMHAISON_PROJECTS_DIR=~/projects
 
 # Import sub-commandline.
 # https://yukimemi.netlify.app/all-you-need-is-peco/
