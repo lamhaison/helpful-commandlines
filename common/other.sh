@@ -53,6 +53,7 @@ function lamhaison_vi_set_commandlines() {
 	_EOF_
 }
 
+# https://cli.github.com/manual/
 function lamhaison_github_repo_list() {
 	local git_owner=$1
 	gh repo list ${git_owner:?'git_owner is unset or empty'} \
