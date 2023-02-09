@@ -66,6 +66,12 @@ function lamhason_github_repo_list_sshurl() {
 		--visibility private --json sshUrl --jq '.[].sshUrl'
 }
 
+function lamhason_github_repo_list_url() {
+	local git_owner=$1
+	gh repo list ${git_owner:?'git_owner is unset or empty'} \
+		--visibility private --json url --jq '.[].url'
+}
+
 function lamhason_github_repo_get_collaborators() {
 	local git_repo_name=$1
 	# echo "Get collaborators of the repo ${git_repo_name}"
@@ -87,4 +93,9 @@ function lamhaison_github_clone_all() {
 			lamhason_github_repo_clone "${owner}/${repo}"
 		done
 	done
+}
+
+# Password generate
+function lamhaison_password_generate() {
+	openssl rand -base64 10 | tr -d '='
 }
