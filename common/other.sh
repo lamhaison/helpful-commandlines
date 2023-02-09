@@ -99,3 +99,8 @@ function lamhaison_github_clone_all() {
 function lamhaison_password_generate() {
 	openssl rand -base64 10 | tr -d '='
 }
+
+# Get DateTime
+function lamhaison_date_get_with_format() {
+	echo $(date "+%Y-%m-%d-%H-%M-%S")
+}
