@@ -94,3 +94,14 @@ function lamhaison_github_clone_all() {
 		done
 	done
 }
+
+function lamhaison_github_clone_all_by_sshgit() {
+	local owner_list=${1}
+	for owner in $(echo ${owner_list:?'owner_list is unset or empty'}); do
+		mkdir -p ${LAMHAISON_PROJECTS_DIR}/${owner}
+		cd ${LAMHAISON_PROJECTS_DIR}/${owner}
+		for repo in $(lamhason_github_repo_list_sshurl ${owner}); do
+			git clone $repo
+		done
+	done
+}
