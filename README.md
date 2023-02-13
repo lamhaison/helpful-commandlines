@@ -4,6 +4,18 @@ This is the repo to collect helpful commandlines that is used for mac and linux 
 ## Setup dependencies
 Notes: This document is for macos environment.
 
+### Install gitlab cli
+```
+brew install glab
+export GITLAB_TOKEN=xxxxx
+```
+
+### Install Github cli
+```
+brew install gh
+export GH_TOKEN=xxxx
+```
+
 ### Install peco
 To allow searching by console.
 ![image](./images/peco_history_menu.png)
