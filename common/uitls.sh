@@ -14,7 +14,7 @@ function lamhaison_password_generate() {
 # Get DateTime
 function lamhaison_file_name_get_random_name() {
 	local file_name=${1:='FILENAME'}
-	mktemp $file_name.XXXXXXXXXXXXXX
+	mktemp ${file_name}-XXXXXXXXXXXXXX
 }
 
 # Trap to handle Ctrl+C
