@@ -25,14 +25,14 @@ setopt HIST_VERIFY          # Don't execute immediately upon history expansion.
 setopt HIST_BEEP            # Beep when accessing nonexistent history.
 
 export LAMHAISON_PROJECTS_DIR=~/projects
+# Get all history from folder /opt/lamhaison-tools
+export LAMHAISON_HELPFUL_LOOKUP="${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/.."
 
 # Import sub-commandline.
 # https://yukimemi.netlify.app/all-you-need-is-peco/
 # https://thevaluable.dev/zsh-line-editor-configuration-mouseless/
-for module in $(echo "common services terraform"); do
-	for script in $(ls ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/${module}); do
-		source ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/${module}/${script}
-	done
+for script in $(find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh' | grep -v main.sh); do
+	source $script
 done
 
 # Add hot-keys
