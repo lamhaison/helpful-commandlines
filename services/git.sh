@@ -88,7 +88,7 @@ function lamhaison_git_set_pull_rebase() {
 	git config pull.rebase true
 }
 
-function lamhaison_git_list_commit() {
+function lamhaison_git_list_commits() {
 	git log --oneline
 }
 
