@@ -87,3 +87,28 @@ function lamhaison_github_clone_all_by_sshgit() {
 function lamhaison_git_set_pull_rebase() {
 	git config pull.rebase true
 }
+
+function lamhaison_git_list_commit() {
+	git log --oneline
+}
+
+function lamhaison_git_change_comment_the_latest_commit() {
+	local git_new_comment=$(echo "${1:=New commit message.}")
+	echo "git commit --amend -m \"${git_new_comment}\""
+}
+
+function lamhaison_git_comment_instruction() {
+	cat <<-__EOF__
+		More instruction - https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/
+		                 - https://chiamakaikeanyi.dev/how-to-write-good-git-commit-messages/
+		Set default git commit message - https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
+
+		git commit -m "[Add] - Your add description"
+		git commit -m "[Refactor] - Your Refactor description"
+		git commit -m "[Fix] - Your fixing bugs detail"
+		git commit -m "[Document] - Your Document description"
+		git commit -m "[Remove] - Your remove detail"
+
+		git commit -m "[Release] - Your Release description (Comment for the PR)"
+	__EOF__
+}
