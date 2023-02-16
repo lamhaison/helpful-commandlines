@@ -92,6 +92,10 @@ function lamhaison_git_list_commits() {
 	git log --oneline
 }
 
+function lamhaison_git_list_new_files() {
+	git ls-files --others --exclude-standard
+}
+
 function lamhaison_git_change_comment_the_latest_commit() {
 	local git_new_comment=$(echo "${1:=New commit message.}")
 	echo "git commit --amend -m \"${git_new_comment}\""
