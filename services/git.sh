@@ -1,16 +1,16 @@
 #!/bin/bash
 
-function lamhaison_git_tag_list() {
+function lamhaison_git_list_tags() {
 	git fetch --all
 	git tag -l --sort=v:refname | grep "v" | sort -r
 }
 
-function lamhaison_git_tag_list_with_hint() {
+function lamhaison_git_list_tags_with_hint() {
 	input_project=$(peco_repo_list)
-	cd ${input_project} && lamhaison_git_tag_list
+	cd ${input_project} && lamhaison_git_list_tags
 }
 
-function lamhaison_git_tag_create() {
+function lamhaison_git_create_tag() {
 	tag_version=$1
 	git checkout master
 	git fetch
