@@ -24,10 +24,10 @@ setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY          # Don't execute immediately upon history expansion.
 setopt HIST_BEEP            # Beep when accessing nonexistent history.
 
-export LAMHAISON_PROJECTS_DIR=~/projects
+export LHS_PROJECTS_DIR=~/projects
 # Get all history from folder /opt/lamhaison-tools
-export LAMHAISON_HELPFUL_LOOKUP="${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/.."
-export LAMHAISON_FUNCTIONS=$(cat $(find ${LAMHAISON_HELPFUL_LOOKUP} -type f -name '*.sh' | grep -v main.sh) |
+export LHS_HELPFUL_LOOKUP="${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/.."
+export LHS_FUNCTIONS=$(cat $(find ${LHS_HELPFUL_LOOKUP} -type f -name '*.sh' | grep -v main.sh) |
 	grep -e "^function.*\(.+*\)" -e "^aws*\(.+*\)" -e "^peco*\(.+*\)" | tr -d "(){" | awk -F ' ' '{ print ($1=="function") ? $2 : $1}' | sort)
 
 # Import sub-commandline.
@@ -41,8 +41,8 @@ done
 zle -N peco_select_history
 bindkey '^r' peco_select_history
 
-zle -N lamhaison_help
-bindkey '^h' lamhaison_help
+zle -N lhs_help
+bindkey '^h' lhs_help
 
 # zle -N aws_assume_role_set_name_with_hint
 # bindkey '^@' aws_assume_role_set_name_with_hint

@@ -1,4 +1,4 @@
-function lamhaison_docker_run_mongodb_client() {
+function lhs_docker_run_mongodb_client() {
 	echo "\
 		docker run -ti --rm mongo:5.0.10 bash
 		Running [mongosh endpoint]
@@ -7,7 +7,7 @@ function lamhaison_docker_run_mongodb_client() {
 	docker run -ti --rm mongo:5.0.10 bash
 }
 
-function lamhaison_docker_run_mysql_client_57() {
+function lhs_docker_run_mysql_client_57() {
 
 	echo "\
 		docker run -it --rm -v /tmp/dump:/dump mysql:5.7 /bin/bash

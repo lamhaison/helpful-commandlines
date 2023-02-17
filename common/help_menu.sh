@@ -1,4 +1,4 @@
-lamhaison_help_helpful() {
+lhs_help_helpful() {
 	# Support both function function_name() { or function_name with prefix aws_bla_bla() {
 	BUFFER=$(
 		cat $(find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh' | grep -v main.sh) |
@@ -8,10 +8,10 @@ lamhaison_help_helpful() {
 
 }
 
-lamhaison_help() {
+lhs_help() {
 	# Support both function function_name() { or function_name with prefix aws_bla_bla() {
 	BUFFER=$(
-		echo ${LAMHAISON_FUNCTIONS} | peco --query "$LBUFFER"
+		echo ${LHS_FUNCTIONS} | peco --query "$LBUFFER"
 	)
 	CURSOR=$#BUFFER
 

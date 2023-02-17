@@ -1,16 +1,16 @@
 #!/bin/bash
 
-function lamhaison_git_list_tags() {
+function lhs_git_list_tags() {
 	git fetch --all
 	git tag -l --sort=v:refname | grep "v" | sort -r
 }
 
-function lamhaison_git_list_tags_with_hint() {
+function lhs_git_list_tags_with_hint() {
 	input_project=$(peco_repo_list)
-	cd ${input_project} && lamhaison_git_list_tags
+	cd ${input_project} && lhs_git_list_tags
 }
 
-function lamhaison_git_create_tag() {
+function lhs_git_create_tag() {
 	tag_version=$1
 	git checkout master
 	git fetch
@@ -19,12 +19,12 @@ function lamhaison_git_create_tag() {
 	# git diff --name-only v1.0.2 v1.0.3
 }
 
-function lamhaison_project_get() {
+function lhs_project_get() {
 	input_project=$(peco_repo_list)
 	cd ${input_project}
 }
 
-function lamhaison_vi_set_commandlines() {
+function lhs_vi_set_commandlines() {
 	cat <<-_EOF_
 		: set nu
 		: set nu! or :set nonu
@@ -32,7 +32,7 @@ function lamhaison_vi_set_commandlines() {
 }
 
 # https://cli.github.com/manual/
-function lamhaison_github_repo_list() {
+function lhs_github_repo_list() {
 	local git_owner=$1
 	gh repo list ${git_owner:?'git_owner is unset or empty'} \
 		--visibility private --json name --jq '.[].name'
@@ -62,46 +62,46 @@ function lamhason_github_repo_clone() {
 	gh repo clone ${git_repo_name:?'git_repo_name is unset or empty'}
 }
 
-function lamhaison_github_clone_all() {
+function lhs_github_clone_all() {
 	local owner_list=${1}
 	for owner in $(echo ${owner_list:?'owner_list is unset or empty'}); do
-		mkdir -p ${LAMHAISON_PROJECTS_DIR}/${owner}
-		cd ${LAMHAISON_PROJECTS_DIR}/${owner}
-		for repo in $(lamhaison_github_repo_list ${owner}); do
-			lamhason_github_repo_clone "${owner}/${repo}"
+		mkdir -p ${LHS_PROJECTS_DIR}/${owner}
+		cd ${LHS_PROJECTS_DIR}/${owner}
+		for repo in $(lhs_github_repo_list ${owner}); do
+			lhs_github_repo_clone "${owner}/${repo}"
 		done
 	done
 }
 
-function lamhaison_github_clone_all_by_sshgit() {
+function lhs_github_clone_all_by_sshgit() {
 	local owner_list=${1}
 	for owner in $(echo ${owner_list:?'owner_list is unset or empty'}); do
-		mkdir -p ${LAMHAISON_PROJECTS_DIR}/${owner}
-		cd ${LAMHAISON_PROJECTS_DIR}/${owner}
+		mkdir -p ${LHS_PROJECTS_DIR}/${owner}
+		cd ${LHS_PROJECTS_DIR}/${owner}
 		for repo in $(lamhason_github_repo_list_sshurl ${owner}); do
 			git clone $repo
 		done
 	done
 }
 
-function lamhaison_git_set_pull_rebase() {
+function lhs_git_set_pull_rebase() {
 	git config pull.rebase true
 }
 
-function lamhaison_git_list_commits() {
+function lhs_git_list_commits() {
 	git log --oneline
 }
 
-function lamhaison_git_list_new_files() {
+function lhs_git_list_new_files() {
 	git ls-files --others --exclude-standard
 }
 
-function lamhaison_git_change_comment_the_latest_commit() {
+function lhs_git_change_comment_the_latest_commit() {
 	local git_new_comment=$(echo "${1:=New commit message.}")
 	echo "git commit --amend -m \"${git_new_comment}\""
 }
 
-function lamhaison_git_comment_instruction() {
+function lhs_git_comment_instruction() {
 	cat <<-__EOF__
 		More instruction - https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/
 		                 - https://chiamakaikeanyi.dev/how-to-write-good-git-commit-messages/

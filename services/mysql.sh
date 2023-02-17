@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function lamhaison_mysql_dump_db {
+function lhs_mysql_dump_db {
 	echo '
 		db_username=
 		db_password=

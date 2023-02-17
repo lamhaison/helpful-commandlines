@@ -1,25 +1,25 @@
 #!/bin/bash
 
 # Get DateTime
-function lamhaison_date_get_with_format() {
+function lhs_date_get_with_format() {
 	echo $(date "+%Y-%m-%d-%H-%M-%S")
 }
 
 # Password generate
-function lamhaison_password_generate() {
+function lhs_password_generate() {
 	# openssl rand -base64 10 | tr -d '='
 	mktemp XXXXXXXXXXXXX
 }
 
 # Get DateTime
-function lamhaison_file_name_get_random_name() {
+function lhs_file_name_get_random_name() {
 	local file_name=${1:='FILENAME'}
 	mktemp ${file_name}-XXXXXXXXXXXXXX
 }
 
 # Trap to handle Ctrl+C
 # Do later
-# function lamhaison_demo_script_trap_handle_hotkey_ctrl_c() {
+# function lhs_demo_script_trap_handle_hotkey_ctrl_c() {
 
 # 	set -x
 # 	TMPFILE1=$(mktemp /tmp/im1.XXXXXX)

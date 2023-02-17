@@ -21,7 +21,7 @@ function peco_history() {
 }
 
 function peco_repo_list() {
-	project_list=$(peco_commandline_input "find ${LAMHAISON_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 | awk -F '.git' '{ print \$1}'" 'true' '60')
+	project_list=$(peco_commandline_input "find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 | awk -F '.git' '{ print \$1}'" 'true' '60')
 	input_project=$(echo ${project_list} | peco)
 	echo ${input_project}
 }
