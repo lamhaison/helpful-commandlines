@@ -38,26 +38,26 @@ function lhs_github_repo_list() {
 		--visibility private --json name --jq '.[].name'
 }
 
-function lamhason_github_repo_list_sshurl() {
+function lhs_github_repo_list_sshurl() {
 	local git_owner=$1
 	gh repo list ${git_owner:?'git_owner is unset or empty'} \
 		--visibility private --json sshUrl --jq '.[].sshUrl'
 }
 
-function lamhason_github_repo_list_url() {
+function lhs_github_repo_list_url() {
 	local git_owner=$1
 	gh repo list ${git_owner:?'git_owner is unset or empty'} \
 		--visibility private --json url --jq '.[].url'
 }
 
-function lamhason_github_repo_get_collaborators() {
+function lhs_github_repo_get_collaborators() {
 	local git_repo_name=$1
 	# echo "Get collaborators of the repo ${git_repo_name}"
 	gh api -H "Accept: application/vnd.github+json" \
 		/repos/${git_repo_name:?'git_repo_name is unset or empty'}/collaborators
 }
 
-function lamhason_github_repo_clone() {
+function lhs_github_repo_clone() {
 	local git_repo_name=$1
 	gh repo clone ${git_repo_name:?'git_repo_name is unset or empty'}
 }
