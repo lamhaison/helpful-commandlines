@@ -1,5 +1,8 @@
 #!/bin/bash
 
+function lhs_git_list_branches() {
+	git branch -r
+}
 function lhs_git_list_tags() {
 	git fetch --all
 	git tag -l --sort=v:refname | grep "v" | sort -r
@@ -78,7 +81,7 @@ function lhs_github_clone_all_by_sshgit() {
 	for owner in $(echo ${owner_list:?'owner_list is unset or empty'}); do
 		mkdir -p ${LHS_PROJECTS_DIR}/${owner}
 		cd ${LHS_PROJECTS_DIR}/${owner}
-		for repo in $(lamhason_github_repo_list_sshurl ${owner}); do
+		for repo in $(lhs_github_repo_list_sshurl ${owner}); do
 			git clone $repo
 		done
 	done
@@ -110,6 +113,7 @@ function lhs_git_comment_instruction() {
 		git commit -m "[Add] - Your add description"
 		git commit -m "[Refactor] - Your Refactor description"
 		git commit -m "[Fix] - Your fixing bugs detail"
+		git commit -m "[Debug] - Your debuging detail"
 		git commit -m "[Document] - Your Document description"
 		git commit -m "[Remove] - Your remove detail"
 
