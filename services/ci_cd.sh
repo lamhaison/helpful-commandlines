@@ -18,3 +18,8 @@ function lhs_ci_laravel_overwrite_aws_credentials_in_env_file() {
 	rm -rf .env.${APP_ENV}
 	mv .env.${APP_ENV}_tmp .env.${APP_ENV}
 }
+
+function lhs_ci_laravel_delete_aws_credentials_in_env_file() {
+	APP_ENV=$1
+	rm -rf .env.${APP_ENV}
+}
