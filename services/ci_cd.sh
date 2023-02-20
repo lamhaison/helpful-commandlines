@@ -7,8 +7,8 @@ function lhs_ci_laravel_replace_aws_credentials_in_env_file() {
 	OLD_AWS_SECRET_ACCESS_KEY=$4
 	NEW_AWS_SECRET_ACCESS_KEY=$5
 	cat .env.${APP_ENV} |
-		sed "s/${OLD_AWS_ACCESS_KEY_ID}/${NEW_AWS_ACCESS_KEY_ID}/g" |
-		sed "s/${OLD_AWS_SECRET_ACCESS_KEY}/${NEW_AWS_SECRET_ACCESS_KEY}/g" \
+		sed "s|${OLD_AWS_ACCESS_KEY_ID}|${NEW_AWS_ACCESS_KEY_ID}|g" |
+		sed "s|${OLD_AWS_SECRET_ACCESS_KEY}|${NEW_AWS_SECRET_ACCESS_KEY}|g" \
 			>.env.${APP_ENV}_tmp
 
 }
