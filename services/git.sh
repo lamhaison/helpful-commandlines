@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function lhs_git_list_branches() {
+	git fetch origin
 	git branch -r
 }
 function lhs_git_list_tags() {
