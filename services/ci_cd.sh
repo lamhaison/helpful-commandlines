@@ -14,6 +14,7 @@ function lhs_ci_laravel_replace_aws_credentials_in_env_file() {
 }
 
 function lhs_ci_laravel_overwrite_aws_credentials_in_env_file() {
+	APP_ENV=$1
 	rm -rf .env.${APP_ENV}
 	mv .env.${APP_ENV}_tmp .env.${APP_ENV}
 }
