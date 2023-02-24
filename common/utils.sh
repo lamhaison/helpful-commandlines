@@ -35,7 +35,7 @@ function lhs_file_name_get_random_name() {
 # 	set +x
 # }
 
-lhs_run_commandline_with_retry() {
+function lhs_run_commandline_with_retry() {
 	local lhs_commandline=$1
 	local silent_mode=$2
 	local retry_counter=0
@@ -66,19 +66,19 @@ lhs_run_commandline_with_retry() {
 
 }
 
-lhs_run_commandline() {
+function lhs_run_commandline() {
 	lhs_run_commandline=$1
 	lhs_run_commandline="${lhs_run_commandline:?'lhs_run_commandline is unset or empty'}"
 	lhs_run_commandline_with_logging "${lhs_run_commandline}"
 }
 
-lhs_commandline_logging() {
+function lhs_commandline_logging() {
 	lhs_commandline_logging=$(echo ${1:?'lhs_commandline is unset or empty'} | tr -d '\t' | tr -d '\n')
 	echo "Running commandline [ ${lhs_commandline_logging} ]"
 
 }
 
-lhs_run_commandline_with_logging() {
+function lhs_run_commandline_with_logging() {
 	lhs_commandline=$1
 	if [ "$lhs_show_log_uploaded" = "true" ]; then
 		local tee_command="tee -a ${log_file_path} ${log_uploaded_file_path}"
@@ -99,6 +99,6 @@ lhs_run_commandline_with_logging() {
 	echo "------------------------------FINISHED-$(date '+%Y-%m-%d-%H-%M-%S')-----------------------------------------" | eval $tee_command >/dev/null
 }
 
-lhs_util_remove_space() {
+function lhs_util_remove_space() {
 	echo "${1}" | sed 's/[[:space:]]//g'
 }

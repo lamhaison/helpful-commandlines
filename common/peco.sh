@@ -26,53 +26,45 @@ function peco_repo_list() {
 	echo ${input_project}
 }
 
-peco_format_name_convention_pre_defined() {
+function peco_format_name_convention_pre_defined() {
 	local peco_input=$1
 	echo "${peco_input}" | tr "\t" "\n" | tr -s " " "\n" | tr -s '\n'
 }
 
-peco_format_aws_output_text() {
+function peco_format_output_text() {
 	local peco_input=$1
 	echo "${peco_input}" | tr "\t" "\n"
 }
 
-peco_aws_acm_list() {
-	aws_acm_list | peco
-}
-
-peco_name_convention_input() {
+function peco_name_convention_input() {
 	local text_input=$1
 	local format_text=$(peco_format_name_convention_pre_defined $text_input)
 	echo $format_text
 }
 
-peco_create_menu_with_array_input() {
+function lhs_peco_create_menu_with_array_input() {
 	local text_input=$1
 	local format_text=$(peco_format_name_convention_pre_defined $text_input)
 	echo $format_text
 }
 
-peco_aws_disable_input_cached() {
+function peco_disable_input_cached() {
 	export peco_input_expired_time=0
 }
 
-peco_aws_input() {
-	peco_commandline_input "${1} --output text" $2
-}
-
-peco_run_command_to_get_input() {
+function peco_run_command_to_get_input() {
 	peco_commandline=$1
 	eval ${peco_commandline}
 }
 
-peco_commandline_input() {
+function peco_commandline_input() {
 
 	local commandline="${1}"
 	local result_cached=$2
 	local input_expired_time="${3:=$peco_input_expired_time}"
 
 	local md5_hash=$(echo $commandline | md5)
-	local input_folder="${lhs_input_tmp:=/tmp}"
+	local input_folder="${lhs_cli_input:=/tmp/inputs}"
 	mkdir -p ${input_folder}
 	local input_file_path="${input_folder}/${md5_hash}.txt"
 	local empty_file=$(find ${input_folder} -name ${md5_hash}.txt -empty)
@@ -83,9 +75,9 @@ peco_commandline_input() {
 		# Ignore the first line.
 		grep -Ev "\*\*\*\*\*\*\*\* \[.*\]" $input_file_path
 	else
-		local aws_result=$(peco_run_command_to_get_input "$commandline")
+		local commandline_result=$(peco_run_command_to_get_input "$commandline")
 
-		local format_text=$(peco_format_aws_output_text $aws_result)
+		local format_text=$(peco_format_output_text $commandline_result)
 
 		if [ -n "${format_text}" ]; then
 			echo "******** [ ${commandline} ] ********" >${input_file_path}
@@ -98,7 +90,7 @@ peco_commandline_input() {
 
 }
 
-peco_create_menu() {
+function lhs_peco_create_menu() {
 	local input_function=$1
 	local peco_options=$2
 	local peco_command="peco ${peco_options}"

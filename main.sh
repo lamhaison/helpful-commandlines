@@ -39,7 +39,7 @@ done
 
 export peco_input_expired_time=10
 export lhs_show_commandline=true
-export lhs_input_tmp=/tmp/lhs/inputs
+export lhs_cli_input=/tmp/lhs/inputs
 export lhs_cli_logs=/tmp/lhs/logs
 mkdir -p /tmp/lhs/{inputs,logs}
 export log_file_path="${lhs_cli_logs}/lhs-cli.log"
@@ -50,6 +50,3 @@ bindkey '^r' peco_select_history
 
 zle -N lhs_help
 bindkey '^h' lhs_help
-
-# zle -N aws_assume_role_set_name_with_hint
-# bindkey '^@' aws_assume_role_set_name_with_hint

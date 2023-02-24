@@ -28,7 +28,7 @@ function lhs_k8s_get_pod() {
 }
 
 function lhs_k8s_get_pods_with_hint() {
-	local lhs_k8s_input=$(peco_create_menu 'peco_k8s_pod_list')
+	local lhs_k8s_input=$(lhs_peco_create_menu 'peco_k8s_pod_list')
 	local lhs_k8s_pod_name=$(echo ${lhs_k8s_input} | awk -F "|" '{print $1}')
 	local lhs_k8s_ns_name=$(echo ${lhs_k8s_input} | awk -F "|" '{print $2}')
 
@@ -51,7 +51,7 @@ function lhs_k8s_list_pods() {
 }
 
 function lhs_k8s_list_pods_with_hint() {
-	lhs_k8s_list_pods $(peco_create_menu 'peco_k8s_namespace_list')
+	lhs_k8s_list_pods $(lhs_peco_create_menu 'peco_k8s_namespace_list')
 }
 
 function lhs_k8s_get_namespaces() {
@@ -86,7 +86,7 @@ function lhs_k8s_get_pod_logs() {
 }
 
 function lhs_k8s_get_pod_logs_with_hint() {
-	local lhs_k8s_input=$(peco_create_menu 'peco_k8s_pod_list')
+	local lhs_k8s_input=$(lhs_peco_create_menu 'peco_k8s_pod_list')
 	local lhs_k8s_pod_name=$(lhs_util_remove_space $(echo ${lhs_k8s_input} | awk -F "|" '{print $1}'))
 	local lhs_k8s_ns_name=$(lhs_util_remove_space $(echo ${lhs_k8s_input} | awk -F "|" '{print $2}'))
 
@@ -112,7 +112,7 @@ function lhs_k8s_set_default_namespace() {
 }
 
 function lhs_k8s_set_default_namespace_with_hint() {
-	export lhs_k8s_ns_name=$(peco_create_menu 'peco_k8s_namespace_list')
+	export lhs_k8s_ns_name=$(lhs_peco_create_menu 'peco_k8s_namespace_list')
 }
 
 function lhs_k8s_get_deployment() {
@@ -139,14 +139,14 @@ function lhs_k8s_get_deployment_logs() {
 }
 
 function lhs_k8s_get_deployment_logs_with_hint() {
-	local lhs_k8s_input=$(peco_create_menu 'peco_k8s_deployment_list')
+	local lhs_k8s_input=$(lhs_peco_create_menu 'peco_k8s_deployment_list')
 	local lhs_k8s_deployment_name=$(lhs_util_remove_space $(echo ${lhs_k8s_input} | awk -F "|" '{print $1}'))
 	local lhs_k8s_ns_name=$(lhs_util_remove_space $(echo ${lhs_k8s_input} | awk -F "|" '{print $2}'))
 	lhs_k8s_get_deployment_logs ${lhs_k8s_deployment_name} ${lhs_k8s_ns_name}
 }
 
 function lhs_k8s_get_deployment_with_hint() {
-	local lhs_k8s_input=$(peco_create_menu 'peco_k8s_deployment_list')
+	local lhs_k8s_input=$(lhs_peco_create_menu 'peco_k8s_deployment_list')
 	local lhs_k8s_deployment_name=$(lhs_util_remove_space $(echo ${lhs_k8s_input} | awk -F "|" '{print $1}'))
 	local lhs_k8s_ns_name=$(lhs_util_remove_space $(echo ${lhs_k8s_input} | awk -F "|" '{print $2}'))
 	lhs_k8s_get_deployment ${lhs_k8s_deployment_name} ${lhs_k8s_ns_name}
@@ -157,7 +157,7 @@ function lhs_k8s_list_all_deployments() {
 }
 
 function lhs_k8s_list_deployments_for_namespace() {
-	lhs_k8s_list_deployments $(peco_create_menu 'peco_k8s_namespace_list')
+	lhs_k8s_list_deployments $(lhs_peco_create_menu 'peco_k8s_namespace_list')
 }
 
 function lhs_k8s_get_dashboard_token() {
