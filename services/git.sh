@@ -10,7 +10,7 @@ function lhs_git_list_tags() {
 }
 
 function lhs_git_list_tags_with_hint() {
-	input_project=$(peco_repo_list)
+	input_project=$(lhs_peco_repo_list)
 	cd ${input_project} && lhs_git_list_tags
 }
 
@@ -24,7 +24,7 @@ function lhs_git_create_tag() {
 }
 
 function lhs_project_get() {
-	input_project=$(peco_repo_list)
+	input_project=$(lhs_peco_repo_list)
 	cd ${input_project}
 }
 

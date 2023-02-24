@@ -20,44 +20,44 @@ function peco_history() {
 	peco_select_history
 }
 
-function peco_repo_list() {
-	project_list=$(peco_commandline_input "find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 | awk -F '.git' '{ print \$1}'" 'true' '60')
+function lhs_peco_repo_list() {
+	project_list=$(lhs_peco_commandline_input "find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 | awk -F '.git' '{ print \$1}'" 'true' '60')
 	input_project=$(echo ${project_list} | peco)
 	echo ${input_project}
 }
 
-function peco_format_name_convention_pre_defined() {
+function lhs_peco_format_name_convention_pre_defined() {
 	local peco_input=$1
 	echo "${peco_input}" | tr "\t" "\n" | tr -s " " "\n" | tr -s '\n'
 }
 
-function peco_format_output_text() {
+function lhs_peco_format_output_text() {
 	local peco_input=$1
 	echo "${peco_input}" | tr "\t" "\n"
 }
 
-function peco_name_convention_input() {
+function lhs_peco_name_convention_input() {
 	local text_input=$1
-	local format_text=$(peco_format_name_convention_pre_defined $text_input)
+	local format_text=$(lhs_peco_format_name_convention_pre_defined $text_input)
 	echo $format_text
 }
 
 function lhs_peco_create_menu_with_array_input() {
 	local text_input=$1
-	local format_text=$(peco_format_name_convention_pre_defined $text_input)
+	local format_text=$(lhs_peco_format_name_convention_pre_defined $text_input)
 	echo $format_text
 }
 
-function peco_disable_input_cached() {
+function lhs_peco_disable_input_cached() {
 	export peco_input_expired_time=0
 }
 
-function peco_run_command_to_get_input() {
+function lhs_peco_run_command_to_get_input() {
 	peco_commandline=$1
 	eval ${peco_commandline}
 }
 
-function peco_commandline_input() {
+function lhs_peco_commandline_input() {
 
 	local commandline="${1}"
 	local result_cached=$2
@@ -75,7 +75,7 @@ function peco_commandline_input() {
 		# Ignore the first line.
 		grep -Ev "\*\*\*\*\*\*\*\* \[.*\]" $input_file_path
 	else
-		local commandline_result=$(peco_run_command_to_get_input "$commandline")
+		local commandline_result=$(lhs_peco_run_command_to_get_input "$commandline")
 
 		local format_text=$(peco_format_output_text $commandline_result)
 

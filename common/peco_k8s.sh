@@ -1,6 +1,6 @@
 #!/bin/bash
 peco_k8s_input() {
-	peco_commandline_input "${1}" 'true'
+	lhs_peco_commandline_input "${1}" 'true'
 }
 
 peco_k8s_namespace_list() {

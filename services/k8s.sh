@@ -39,7 +39,7 @@ function lhs_k8s_get_pods_with_hint() {
 function lhs_k8s_list_all_pods() {
 
 	lhs_kubectl_run_commandline "\
-		kubectl get pods --all-namespaces
+		kubectl get pods --all-namespaces -o wide
 	"
 }
 
