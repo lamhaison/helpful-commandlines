@@ -43,8 +43,8 @@ mkdir -p ${lhs_cli_input} ${lhs_cli_logs}
 export lhs_cli_log_file_path="${lhs_cli_logs}/lhs-cli.log"
 export lhs_cli_log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
 # Add hot-keys
-zle -N peco_select_history
-bindkey '^r' peco_select_history
+zle -N lhs_peco_select_history
+bindkey '^r' lhs_peco_select_history
 
-zle -N lhs_help
-bindkey '^h' lhs_help
+zle -N lhs_help_all
+bindkey '^h' lhs_help_all

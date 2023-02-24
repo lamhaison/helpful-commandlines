@@ -1,6 +1,6 @@
 # brew install peco
 # PECO
-function peco_select_history() {
+function lhs_peco_select_history() {
 	local tac
 	if which tac >/dev/null; then
 		tac="tac"
@@ -16,7 +16,7 @@ function peco_select_history() {
 	# zle clear-screen
 }
 
-function peco_history() {
+function lhs_peco_history() {
 	peco_select_history
 }
 
