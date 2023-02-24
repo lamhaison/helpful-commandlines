@@ -93,6 +93,45 @@ function lhs_k8s_get_pod_logs_with_hint() {
 	lhs_k8s_get_pod_logs ${lhs_k8s_pod_name} ${lhs_k8s_ns_name}
 }
 
+#  TODO Later
+function lhs_k8s_pod_exec() {
+	local lhs_k8s_pod_name=$1
+	local lhs_k8s_ns_name=$2
+	local lhs_k8s_other_options=$3
+
+	# TODO Later (Execute to access the container)
+	lhs_commandline_logging "\
+		kubectl exec --stdin --tty ${lhs_k8s_pod_name} -n ${lhs_k8s_ns_name} ${lhs_k8s_other_options}
+	"
+
+	local lhs_k8s_cmd="kubectl exec --stdin --tty ${lhs_k8s_pod_name} -n ${lhs_k8s_ns_name} ${lhs_k8s_other_options}"
+	eval ${lhs_k8s_cmd}
+}
+
+function lhs_k8s_pod_exec_with_hint() {
+	local lhs_k8s_input=$(lhs_peco_create_menu 'peco_k8s_pod_list')
+	local lhs_k8s_pod_name=$(lhs_util_remove_space $(echo ${lhs_k8s_input} | awk -F "|" '{print $1}'))
+	local lhs_k8s_ns_name=$(lhs_util_remove_space $(echo ${lhs_k8s_input} | awk -F "|" '{print $2}'))
+
+	lhs_k8s_pod_exec ${lhs_k8s_pod_name} ${lhs_k8s_ns_name} "-- /bin/sh"
+}
+
+# TODO Later
+function lhs_k8s_pod_transfer_files_instruction() {
+	cat <<-__EOF__
+
+		# Copying files and directories to and from containers
+		kubectl cp /tmp/foo_dir my-pod:/tmp/bar_dir            # Copy /tmp/foo_dir local directory to /tmp/bar_dir in a remote pod in the current namespace
+		kubectl cp /tmp/foo my-pod:/tmp/bar -c my-container    # Copy /tmp/foo local file to /tmp/bar in a remote pod in a specific container
+		kubectl cp /tmp/foo my-namespace/my-pod:/tmp/bar       # Copy /tmp/foo local file to /tmp/bar in a remote pod in namespace my-namespace
+		kubectl cp my-namespace/my-pod:/tmp/foo /tmp/bar       # Copy /tmp/foo from a remote pod to /tmp/bar locally
+
+
+		tar cf - /tmp/foo | kubectl exec -i -n my-namespace my-pod -- tar xf - -C /tmp/bar           # Copy /tmp/foo local file to /tmp/bar in a remote pod in namespace my-namespace
+		kubectl exec -n my-namespace my-pod -- tar cf - /tmp/foo | tar xf - -C /tmp/bar    # Copy /tmp/foo from a remote pod to /tmp/bar locally
+	__EOF__
+}
+
 # K8s Deployment
 
 function lhs_k8s_list_deployments() {
