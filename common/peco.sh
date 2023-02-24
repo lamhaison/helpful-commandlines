@@ -77,7 +77,7 @@ function lhs_peco_commandline_input() {
 	else
 		local commandline_result=$(lhs_peco_run_command_to_get_input "$commandline")
 
-		local format_text=$(peco_format_output_text $commandline_result)
+		local format_text=$(lhs_peco_format_output_text $commandline_result)
 
 		if [ -n "${format_text}" ]; then
 			echo "******** [ ${commandline} ] ********" >${input_file_path}
