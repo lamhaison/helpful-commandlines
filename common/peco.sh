@@ -49,7 +49,7 @@ function lhs_peco_create_menu_with_array_input() {
 }
 
 function lhs_peco_disable_input_cached() {
-	export peco_input_expired_time=0
+	export lhs_cli_peco_input_expired_time=0
 }
 
 function lhs_peco_run_command_to_get_input() {
@@ -61,7 +61,7 @@ function lhs_peco_commandline_input() {
 
 	local commandline="${1}"
 	local result_cached=$2
-	local input_expired_time="${3:=$peco_input_expired_time}"
+	local input_expired_time="${3:=$lhs_cli_peco_input_expired_time}"
 
 	local md5_hash=$(echo $commandline | md5)
 	local input_folder="${lhs_cli_input:=/tmp/inputs}"
