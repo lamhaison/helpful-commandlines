@@ -37,6 +37,13 @@ for script in $(find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh'
 	source $script
 done
 
+export peco_input_expired_time=10
+export lhs_show_commandline=true
+export lhs_input_tmp=/tmp/lhs/inputs
+export lhs_cli_logs=/tmp/lhs/logs
+mkdir -p /tmp/lhs/{inputs,logs}
+export log_file_path="${lhs_cli_logs}/lhs-cli.log"
+export log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
 # Add hot-keys
 zle -N peco_select_history
 bindkey '^r' peco_select_history
