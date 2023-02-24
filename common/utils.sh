@@ -102,3 +102,7 @@ function lhs_run_commandline_with_logging() {
 function lhs_util_remove_space() {
 	echo "${1}" | sed 's/[[:space:]]//g'
 }
+
+function lhs_uitl_format_commandline_one_line() {
+	echo ${1} | tr -d '\t' | tr -d '\n' | tr -s ' '
+}

@@ -59,7 +59,7 @@ function lhs_peco_run_command_to_get_input() {
 
 function lhs_peco_commandline_input() {
 
-	local commandline="${1}"
+	commandline="${1}"
 	local result_cached=$2
 	local input_expired_time="${3:=$lhs_cli_peco_input_expired_time}"
 
@@ -74,12 +74,14 @@ function lhs_peco_commandline_input() {
 	if [ -z "${valid_file}" ] && [ -f "${input_file_path}" ] && [ -z "${empty_file}" ] && [ -n "${result_cached}" ]; then
 		# Ignore the first line.
 		grep -Ev "\*\*\*\*\*\*\*\* \[.*\]" $input_file_path
+		# cat $input_file_path |
 	else
 		local commandline_result=$(lhs_peco_run_command_to_get_input "$commandline")
 
 		local format_text=$(lhs_peco_format_output_text $commandline_result)
 
 		if [ -n "${format_text}" ]; then
+			commandline=$(lhs_uitl_format_commandline_one_line ${commandline})
 			echo "******** [ ${commandline} ] ********" >${input_file_path}
 			echo ${format_text} | tee -a ${input_file_path}
 		else

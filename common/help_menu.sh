@@ -10,10 +10,9 @@ lhs_help_helpful() {
 
 lhs_help() {
 	# Support both function function_name() { or function_name with prefix aws_bla_bla() {
-	LHS_FUNCTIONS=$(cat $(find ${LHS_HELPFUL_LOOKUP} -type f -name '*.sh' | grep -v main.sh) |
-		grep -e "^function.*\(.+*\)" -e "^aws*\(.+*\)" -e "^peco*\(.+*\)" | tr -d "(){" | awk -F ' ' '{ print ($1=="function") ? $2 : $1}' | sort)
+	local lhs_functions=$(lhs_peco_function_list)
 	BUFFER=$(
-		echo ${LHS_FUNCTIONS} | peco --query "$LBUFFER"
+		echo ${lhs_functions} | peco --query "$LBUFFER"
 	)
 	CURSOR=$#BUFFER
 

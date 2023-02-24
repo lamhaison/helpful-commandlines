@@ -27,8 +27,6 @@ setopt HIST_BEEP            # Beep when accessing nonexistent history.
 export LHS_PROJECTS_DIR=~/projects
 # Get all history from folder /opt/lamhaison-tools
 export LHS_HELPFUL_LOOKUP="${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/.."
-export LHS_FUNCTIONS=$(cat $(find ${LHS_HELPFUL_LOOKUP} -type f -name '*.sh' | grep -v main.sh) |
-	grep -e "^function.*\(.+*\)" -e "^aws*\(.+*\)" -e "^peco*\(.+*\)" | tr -d "(){" | awk -F ' ' '{ print ($1=="function") ? $2 : $1}' | sort)
 
 # Import sub-commandline.
 # https://yukimemi.netlify.app/all-you-need-is-peco/
