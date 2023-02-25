@@ -63,7 +63,7 @@ function lhs_k8s_get_namespaces() {
 
 function lhs_k8s_get_nodes() {
 	lhs_kubectl_run_commandline "\
-		kubectl get nodes
+		kubectl get nodes -o wide
 	"
 
 }
