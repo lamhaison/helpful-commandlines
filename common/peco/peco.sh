@@ -81,7 +81,7 @@ function lhs_peco_commandline_input() {
 		local format_text=$(lhs_peco_format_output_text $commandline_result)
 
 		if [ -n "${format_text}" ]; then
-			commandline=$(lhs_uitl_format_commandline_one_line ${commandline})
+			commandline=$(lhs_util_format_commandline_one_line ${commandline})
 			echo "******** [ ${commandline} ] ********" >${input_file_path}
 			echo ${format_text} | tee -a ${input_file_path}
 		else

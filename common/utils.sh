@@ -100,9 +100,11 @@ function lhs_run_commandline_with_logging() {
 }
 
 function lhs_util_remove_space() {
-	echo "${1}" | sed 's/[[:space:]]//g'
+	# echo "${1}" | sed 's/[[:space:]]//g'
+	# https://stackoverflow.com/questions/13659318/how-to-remove-space-from-string
+	echo "${1//+([[:space:]])/}"
 }
 
-function lhs_uitl_format_commandline_one_line() {
+function lhs_util_format_commandline_one_line() {
 	echo ${1} | tr -d '\t' | tr -d '\n' | tr -s ' '
 }
