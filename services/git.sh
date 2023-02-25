@@ -98,6 +98,26 @@ function lhs_git_change_comment_the_latest_commit() {
 	echo "git commit --amend -m \"${git_new_comment}\""
 }
 
+# Git commit
+
+function lhs_git_diff() {
+	lhs_run_commandline "git diff --name-only"
+
+}
+
+function lhs_git_commit() {
+	local lhs_git_commit_cmd=$(echo "git add ${1:=*}")
+	lhs_git_diff
+	lhs_run_commandline "${lhs_git_commit_cmd}"
+	lhs_git_diff
+
+}
+
+function lhs_git_commit_with_hint() {
+	lhs_git_file_name=$(lhs_peco_create_menu 'lhs_peco_git_diff_name_only')
+	lhs_git_un_modify_the_file ${lhs_git_file_name}
+}
+
 function lhs_git_un_commit_the_file() {
 	lhs_commandline_logging "git reset HEAD ${1}"
 	git reset HEAD $1
