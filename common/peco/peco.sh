@@ -60,7 +60,7 @@ function lhs_peco_run_command_to_get_input() {
 function lhs_peco_commandline_input() {
 
 	commandline="${1}"
-	local result_cached=$2
+	local result_cached=${2:='false'}
 	local input_expired_time="${3:=$lhs_cli_peco_input_expired_time}"
 
 	local md5_hash=$(echo $commandline | md5)
@@ -71,7 +71,7 @@ function lhs_peco_commandline_input() {
 	local valid_file=$(find ${input_folder} -name ${md5_hash}.txt -mmin +${input_expired_time})
 
 	# The file is existed and not empty and the flag result_cached is not empty
-	if [ -z "${valid_file}" ] && [ -f "${input_file_path}" ] && [ -z "${empty_file}" ] && [ -n "${result_cached}" ]; then
+	if [ -z "${valid_file}" ] && [ -f "${input_file_path}" ] && [ -z "${empty_file}" ] && [ "true" = "${result_cached}" ]; then
 		# Ignore the first line.
 		grep -Ev "\*\*\*\*\*\*\*\* \[.*\]" $input_file_path
 		# cat $input_file_path |

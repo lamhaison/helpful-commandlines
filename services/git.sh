@@ -115,7 +115,7 @@ function lhs_git_commit() {
 
 function lhs_git_commit_with_hint() {
 	lhs_git_file_name=$(lhs_peco_create_menu 'lhs_peco_git_diff_name_only')
-	lhs_git_un_modify_the_file ${lhs_git_file_name}
+	lhs_git_commit ${lhs_git_file_name}
 }
 
 function lhs_git_un_commit_the_file() {
@@ -123,20 +123,14 @@ function lhs_git_un_commit_the_file() {
 	git reset HEAD $1
 }
 
-function lhs_git_un_modify_the_file() {
-	lhs_commandline_logging "git checkout ${1}"
-	git checkout ${1:?'lhs_git_file_name is unset or empty'}
+function lhs_git_un_modify_the_file_instruction() {
+	echo "Here is the instruction"
+	lhs_commandline_logging "git checkout ${1:?'lhs_git_file_name is unset or empty'}"
 }
 
 function lhs_git_un_modify_the_file_with_hint() {
-
-	# TODO Later
-	lhs_peco_git_diff_name_only() {
-		lhs_peco_commandline_input 'git diff --name-only'
-	}
-
 	lhs_git_file_name=$(lhs_peco_create_menu 'lhs_peco_git_diff_name_only')
-	lhs_git_un_modify_the_file ${lhs_git_file_name}
+	lhs_git_un_modify_the_file_instruction ${lhs_git_file_name}
 }
 function lhs_git_un_commit_the_file_instruction() {
 	cat <<__EOF__
