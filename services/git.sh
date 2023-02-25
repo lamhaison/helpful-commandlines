@@ -28,13 +28,6 @@ function lhs_project_get() {
 	cd ${input_project}
 }
 
-function lhs_vi_set_commandlines() {
-	cat <<-_EOF_
-		: set nu
-		: set nu! or :set nonu
-	_EOF_
-}
-
 # https://cli.github.com/manual/
 function lhs_github_repo_list() {
 	local git_owner=$1
@@ -103,6 +96,44 @@ function lhs_git_list_new_files() {
 function lhs_git_change_comment_the_latest_commit() {
 	local git_new_comment=$(echo "${1:=New commit message.}")
 	echo "git commit --amend -m \"${git_new_comment}\""
+}
+
+function lhs_git_un_commit_the_file() {
+	lhs_commandline_logging "git reset HEAD ${1}"
+	git reset HEAD $1
+}
+
+function lhs_git_un_modify_the_file() {
+	lhs_commandline_logging "git checkout ${1}"
+	git checkout ${1:?'lhs_git_file_name is unset or empty'}
+}
+
+function lhs_git_un_modify_the_file_with_hint() {
+
+	# TODO Later
+	lhs_peco_git_diff_name_only() {
+		lhs_peco_commandline_input 'git diff --name-only'
+	}
+
+	lhs_git_file_name=$(lhs_peco_create_menu 'lhs_peco_git_diff_name_only')
+	lhs_git_un_modify_the_file ${lhs_git_file_name}
+}
+function lhs_git_un_commit_the_file_instruction() {
+	cat <<__EOF__
+	let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type git add * and stage them both.
+	git reset HEAD path/to/file
+__EOF__
+}
+
+function lhs_git_commit_forgot_change_files_instruction() {
+	cat <<__EOF__
+	If you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, 
+	you can do something like this:
+		+ git commit -m 'initial commit'
+		+ git add forgotten_file
+		+ git commit --amend
+		+ You end up with a single commit—the second commit replaces the results of the first.
+__EOF__
 }
 
 function lhs_git_comment_instruction() {
