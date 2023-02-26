@@ -8,13 +8,18 @@ function lhs_date_get_with_format() {
 # Password generate
 function lhs_password_generate() {
 	# openssl rand -base64 10 | tr -d '='
+
+	cd /tmp >/dev/null
 	mktemp XXXXXXXXXXXXX
+	cd - >/dev/null
 }
 
 # Get DateTime
 function lhs_file_name_get_random_name() {
 	local file_name=${1:='FILENAME'}
+	cd /tmp >/dev/null
 	mktemp ${file_name}-XXXXXXXXXXXXXX
+	cd - >/dev/null
 }
 
 # Trap to handle Ctrl+C
