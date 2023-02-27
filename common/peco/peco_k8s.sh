@@ -17,3 +17,8 @@ peco_k8s_pod_list() {
 	peco_k8s_input "kubectl get pods --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
 }
+
+peco_k8s_pod_list_reloaded() {
+	lhs_peco_commandline_input "kubectl get pods --all-namespaces \
+		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'" 'false'
+}
