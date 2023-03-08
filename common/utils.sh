@@ -78,8 +78,14 @@ function lhs_run_commandline() {
 }
 
 function lhs_commandline_logging() {
+	local eval_commandline=${2:='False'}
 	lhs_commandline_logging=$(echo ${1:?'lhs_commandline is unset or empty'} | tr -d '\t' | tr -d '\n')
-	echo "Running commandline [ ${lhs_commandline_logging} ]"
+
+	if [[ "${eval_commandline}" == "True" ]]; then
+		echo "${lhs_commandline_logging}"
+	else
+		echo "Running commandline [ ${lhs_commandline_logging} ]"
+	fi
 
 }
 
