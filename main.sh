@@ -16,7 +16,7 @@ if [[ -z "${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}" ]]; then
 		DEFAULT_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS='/opt/lamhaison-tools/helpful-commandlines'
 	fi
 
-	export HELPFUL_COMMANDLINES_SOURCE_SCRIPTS="${LOCAL_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS:=${DEFAULT_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}}"
+	export HELPFUL_COMMANDLINES_SOURCE_SCRIPTS="${LOCAL_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS:-${DEFAULT_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}}"
 else
 	export HELPFUL_COMMANDLINES_SOURCE_SCRIPTS=${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}
 fi
@@ -26,7 +26,7 @@ fi
 # export SAVEHIST=15000
 # https://github.com/mattjj/my-oh-my-zsh/blob/master/history.zsh
 
-LHS_CHANGE_HISTORY_SETTINGS=${3:='True'}
+LHS_CHANGE_HISTORY_SETTINGS=${3:-'True'}
 
 if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" ]]; then
 	HISTFILE="$HOME/.zhistory"
@@ -69,7 +69,7 @@ mkdir -p ${lhs_cli_input} ${lhs_cli_logs}
 export lhs_cli_log_file_path="${lhs_cli_logs}/lhs-cli.log"
 export lhs_cli_log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
 
-LHS_BIND_KEY=${2:='True'}
+LHS_BIND_KEY=${2:-'True'}
 
 if [[ "${LHS_BIND_KEY}" = "True" ]]; then
 	# Add hot-keys

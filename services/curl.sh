@@ -2,7 +2,7 @@
 
 function lhs_curl_get_response_headers_only() {
 
-	lhs_curl_url=${1:='https://devopsmountain.com'}
+	lhs_curl_url=${1:-'https://devopsmountain.com'}
 	echo "\
 		http_endpoint: ${lhs_curl_url}
 		-s hides the progress bar

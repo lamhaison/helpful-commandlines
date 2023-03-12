@@ -64,11 +64,11 @@ function lhs_peco_run_command_to_get_input() {
 function lhs_peco_commandline_input() {
 
 	commandline="${1}"
-	local result_cached=${2:='false'}
-	local input_expired_time="${3:=$lhs_cli_peco_input_expired_time}"
+	local result_cached=${2:-'false'}
+	local input_expired_time="${3:-$lhs_cli_peco_input_expired_time}"
 
 	local md5_hash=$(echo $commandline | md5)
-	local input_folder="${lhs_cli_input:=/tmp/inputs}"
+	local input_folder="${lhs_cli_input:-/tmp/inputs}"
 	mkdir -p ${input_folder}
 	local input_file_path="${input_folder}/${md5_hash}.txt"
 	local empty_file=$(find ${input_folder} -name ${md5_hash}.txt -empty)
