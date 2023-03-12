@@ -29,9 +29,11 @@ fi
 LHS_CHANGE_HISTORY_SETTINGS=${3:-'True'}
 
 if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" ]]; then
-	HISTFILE="$HOME/.zhistory"
-	HISTSIZE=10000000
-	SAVEHIST=10000000
+	export HISTFILE="$HOME/.zhistory"
+	export HISTSIZE=10000
+	export SAVEHIST=10000
+	# Ignore duplicates in command history and increase
+	export HISTCONTROL=ignoredups
 
 	setopt BANG_HIST              # Treat the '!' character specially during expansion.
 	setopt EXTENDED_HISTORY       # Write the history file in the ":start:elapsed;command" format.
