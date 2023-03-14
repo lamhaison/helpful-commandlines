@@ -1,4 +1,4 @@
-function lamhaison_help_incident_report() {
+function lhs_help_incident_report() {
 	echo "
 		Reference - https://sysadmincasts.com/episodes/20-how-to-write-an-incident-report-postmortem
 		Reference - https://blog.tolleiv.de/2015/01/post-mortem-documentations-or-how-to-build-knowledge-during-failures/
