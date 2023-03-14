@@ -110,7 +110,7 @@ function lhs_run_commandline_with_logging() {
 	echo "------------------------------FINISHED-$(date '+%Y-%m-%d-%H-%M-%S')-----------------------------------------" | eval $tee_command >/dev/null
 }
 
-function lhs_util_remove_space() {
+function lhs_util_rm_space() {
 	# echo "${1}" | sed 's/[[:space:]]//g'
 	# https://stackoverflow.com/questions/13659318/how-to-remove-space-from-string
 	echo "${1//+([[:space:]])/}"
