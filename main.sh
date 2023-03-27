@@ -80,4 +80,9 @@ if [[ "${LHS_BIND_KEY}" = "True" ]]; then
 
 	zle -N lhs_help_all
 	bindkey '^h' lhs_help_all
+
+	# Hot key for git commit suggestions
+	zle -N lhs_git_commit_suggestions_with_hint
+	# Hotkey: Option + gc
+	bindkey '©ç' lhs_git_commit_suggestions_with_hint
 fi
