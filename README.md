@@ -44,5 +44,11 @@ echo "source /opt/lamhaison-tools/helpful-commandlines/main.sh" >> ~/.bashrc
 # How to search commandline
 ```
 Ctrl + H or lhs_help_helpful
+
+```
+
+# How to enable git commit suggestions
+```
+Option + gc or lhs_git_commit_suggestions | peco
 ```
 
