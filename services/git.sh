@@ -20,6 +20,7 @@ function lhs_git_commit_suggestions() {
 	# Set default git commit message - https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
 	cat <<-__EOF__
 		git commit -m "[Add] - Your add description"
+		git commit -m "[Improvement] - for enhancements"
 		git commit -m "[Update] - Your update description"
 		git commit -m "[Remove] - remove somethings such as functions, temp file, ..."
 		git commit -m "[Feat] – a new feature is introduced with the changes"
