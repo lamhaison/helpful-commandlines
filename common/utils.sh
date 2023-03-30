@@ -2,7 +2,11 @@
 
 # Get DateTime
 function lhs_date_get_with_format() {
-	echo $(date "+%Y-%m-%d-%H-%M-%S")
+	echo $(date "+"${1:-"%Y-%m-%d-%H-%M-%S"})
+}
+
+function lhs_date_get_with_format_yyyymmdd() {
+	lhs_date_get_with_format "%Y%m%d"
 }
 
 # Password generate
