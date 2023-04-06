@@ -86,7 +86,7 @@ function lhs_git_commit_suggestions() {
 			Ex: git commit -m "[Chore] - update npm dependency to latest version"
 			Ex: git commit -m "[Fix] - bug preventing users from submitting the subscribe form"
 			Ex: git commit -m "[Update] -  incorrect client phone number within footer body per client request"
-			Ex: git commit -m "[Refactor] - to refactor function names"
+			Ex: git commit -m "[Refactor] - function names"
 			Ex: git commit -m "[Chore] - to fix typo"
 
 	__EOF__
