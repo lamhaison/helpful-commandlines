@@ -6,6 +6,21 @@
 #
 ##
 
+function lhs_docker_install_aws_linux_2_instruction() {
+	cat <<-__EOF__
+		sudo amazon-linux-extras install -y docker
+		sudo service docker start
+		sudo usermod -a -G docker ec2-user
+		sudo chkconfig docker on
+		sudo yum install -y git
+		sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-\$(uname -s)-\$(uname -m) -o /usr/local/bin/docker-compose
+		sudo chmod +x /usr/local/bin/docker-compose
+		echo 'export PATH="/usr/local/bin:\$PATH"' >> ~/.bash_profile
+		source ~/.bash_profile
+		docker-compose version
+	__EOF__
+}
+
 function lhs_docker_run_mongodb_client() {
 	echo "\
 		docker run -ti --rm mongo:5.0.10 bash
