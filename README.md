@@ -34,6 +34,29 @@ jq --version
 jq-1.6
 ```
 
+
+## Setup lhs-helpful-commandlines
+### Setup from homebrew
+#### Install
+```
+brew tap lamhaison/formulae
+brew install lamhaison/formulae/lhs-helpful-commandlines
+```
+## Load when start an Iterm terminal
+Add these lines to ~/.bashrc or ~/.zshrc or ~/.bash_profile
+```
+source "$(which lhs-helpful-commandlines.sh)" "/opt/homebrew/Cellar/lhs-helpful-commandlines/$(brew info lhs-helpful-commandlines | head -1 | awk -F "stable " '{print $2}')" "${HOME}" "True"
+
+```
+
+### Re-install the latest version
+```
+brew uninstall lhs-helpful-commandlines
+brew untap lamhaison/formulae
+brew tap lamhaison/formulae
+brew install lamhaison/formulae/lhs-helpful-commandlines
+
+
 ## Settings when open terminal (I am using iterm)
 ```
 mkdir -p /opt/lamhaison-tools && cd /opt/lamhaison-tools

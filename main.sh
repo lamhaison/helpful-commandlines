@@ -59,7 +59,10 @@ export LHS_HELPFUL_LOOKUP_CACHED=true
 # Import sub-commandline.
 # https://yukimemi.netlify.app/all-you-need-is-peco/
 # https://thevaluable.dev/zsh-line-editor-configuration-mouseless/
-for script in $(find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh' | grep -v main.sh | grep -v test.sh | grep -v temp.sh); do
+for script in $(
+	find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh' |
+		grep -v main.sh | grep -v test.sh | grep -v temp.sh | grep -v helpful-commandlines.sh
+); do
 	source $script
 done
 
@@ -77,6 +80,8 @@ if [[ "${LHS_BIND_KEY}" = "True" ]]; then
 	# Add hot-keys
 	zle -N lhs_peco_select_history
 	bindkey '^r' lhs_peco_select_history
+	# Option + r
+	bindkey '®' lhs_peco_select_history
 
 	zle -N lhs_help_all
 	bindkey '^h' lhs_help_all
