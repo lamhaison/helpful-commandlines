@@ -15,13 +15,6 @@ function lhs_help_install_macos_peco_instruction() {
 
 }
 
-function lhs_help_hotkey_sublime_search_files_instruction() {
-	cat <<-_EOF_
-		# Search file in sublimetext on macos
-		⌘(Command) + P
-	_EOF_
-}
-
 lhs_help_create_os_user_instruction() {
 
 	echo '
