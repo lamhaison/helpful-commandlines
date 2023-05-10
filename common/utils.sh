@@ -9,6 +9,15 @@ function lhs_date_get_with_format_yyyymmdd() {
 	lhs_date_get_with_format "%Y%m%d"
 }
 
+# TODO functilhs_time_convert_echo_to_human_readable_formaton_name to convert epoch time to human readable formnat.
+# @param	$1: the value of epoch time and $2: the formant(default is %Y-%m-%d-%H-%M-%S)
+# @return
+#
+function lhs_time_convert_echo_to_human_readable_format() {
+	local default_date_format=+${2:-'%Y-%m-%d-%H-%M-%S'}
+	date -r ${1:?'epoch_value is unset or empty'} ${default_date_format}
+}
+
 # Password generate
 function lhs_password_generate() {
 	# openssl rand -base64 10 | tr -d '='
