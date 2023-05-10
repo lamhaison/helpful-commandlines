@@ -79,7 +79,10 @@ LHS_BIND_KEY=${2:-'True'}
 if [[ "${LHS_BIND_KEY}" = "True" ]]; then
 	# Add hot-keys
 	zle -N lhs_peco_select_history
-	bindkey '^r' lhs_peco_select_history
+
+	# Using zsh-history-substring-search reserved
+	# bindkey '^r' lhs_peco_select_history
+
 	# Option + r
 	bindkey '®' lhs_peco_select_history
 
