@@ -1,5 +1,5 @@
 # helpful-commandlines
-This is the repo to collect helpful commandlines that is used for mac and linux os.
+This is the repo to collect helpful commandlines that is used for mac and Linux OS.
 
 
 ## Setup dependencies
@@ -11,7 +11,7 @@ brew install glab
 export GITLAB_TOKEN=xxxxx
 ```
 
-### Install Github cli
+### Install GitHub cli
 ```
 brew install gh
 export GH_TOKEN=xxxx
