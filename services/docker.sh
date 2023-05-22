@@ -81,3 +81,35 @@ function lhs_docker_build_git_secret_image() {
 	EOF
 
 }
+
+function lhs_docker_docs_build_image_optimized_instruction() {
+
+	local lhs_docs=$(
+		cat <<-__EOF__
+			Use minimal base images
+			Use multistage builds
+			Use Dockerignore
+			Double-check the dependencies
+			Minimize the image layers
+		__EOF__
+	)
+
+	echo "${lhs_docs}"
+}
+
+function lhs_docker_analyze_docker_image_instruction() {
+
+	local lhs_docs=$(
+		cat <<-__EOF__
+			brew install dive # Install dive to analyze docker image
+			open "https://github.com/wagoodman/dive" # Open dive document
+			dive <image_name> # Analyze docker image
+		__EOF__
+	)
+	echo "${lhs_docs}"
+}
+
+function lhs_docker_docs_all() {
+	lhs_docs_add_prefix 'lhs_docker_docs_build_image_optimized_instruction' 'image'
+	lhs_docs_add_prefix 'lhs_docker_install_aws_linux_2_instruction' 'install'
+}
