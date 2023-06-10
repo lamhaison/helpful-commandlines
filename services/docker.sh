@@ -119,8 +119,8 @@ function lhs_docker_analyze_docker_image_instruction() {
 }
 
 function lhs_docker_docs_all() {
-	lhs_docs_add_prefix 'lhs_docker_docs_build_image_optimized_instruction' 'image'
-	lhs_docs_add_prefix 'lhs_docker_install_aws_linux_2_instruction' 'install'
+	local_lhs_docs_add_prefix 'lhs_docker_docs_build_image_optimized_instruction' 'image'
+	local_lhs_docs_add_prefix 'lhs_docker_install_aws_linux_2_instruction' 'install'
 }
 
 function lhs_docker_alpine_install_telnet_instruction() {

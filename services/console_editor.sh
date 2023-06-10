@@ -16,15 +16,3 @@ function lhs_editor_with_tree() {
 	fi
 
 }
-
-function lhs_vi() {
-	lhs_editor_with_tree "$@"
-}
-
-function lhs_vim() {
-	lhs_editor_with_tree "$@"
-}
-
-function lhs_view() {
-	lhs_editor_with_tree "" "view"
-}
