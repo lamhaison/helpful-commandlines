@@ -9,6 +9,15 @@ function lhs_cmd_date_get_with_format_yyyymmdd() {
 	lhs_cmd_date_get_with_format "%Y%m%d"
 }
 
+function lhs_cmd_date_get_with_format_cw_log() {
+	lhs_cmd_date_get_with_format "%Y-%m-%d %H:%M:%S"
+}
+
+function lhs_cmd_date_get_epoch_time() {
+	# unix-time-in-milliseconds
+	date -d '0 hour ago' +%s%N | cut -b1-13
+}
+
 # TODO function lhs_cmd_time_convert_echo_to_human_readable_formaton_name to convert epoch time to human readable formnat.
 # @param	$1: the value of epoch time and $2: the formant(default is %Y-%m-%d-%H-%M-%S)
 # @return
