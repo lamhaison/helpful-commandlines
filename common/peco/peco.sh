@@ -26,7 +26,14 @@ function lhs_peco_repo_list() {
 			find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 \
 			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '60'
 	)
-	input_project=$(echo ${project_list} | peco)
+	local final_projects=$(
+		cat <<-__EOF__
+			${LHS_TOOLS_DIR}
+			${project_list}
+		__EOF__
+	)
+
+	input_project=$(echo ${final_projects} | peco)
 	echo ${input_project}
 }
 
