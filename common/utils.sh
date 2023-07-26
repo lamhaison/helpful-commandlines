@@ -14,6 +14,8 @@ function lhs_cmd_date_get_with_format_yyyymmdd() {
 # @return
 #
 function lhs_cmd_time_convert_echo_to_human_readable_format() {
+
+	# TODO Later (it didn't work rightnow)
 	local default_date_format=+${2:-'%Y-%m-%d-%H-%M-%S'}
 	date -r ${1:?'epoch_value is unset or empty'} ${default_date_format}
 }
