@@ -93,13 +93,18 @@ function local_lhs_run_commandline() {
 }
 
 function local_lhs_commandline_logging() {
+
+	local log_file_path=${aws_cli_logs}/${ASSUME_ROLE}.log
+	local tee_command="tee -a ${lhs_cli_log_file_path}"
+
 	local eval_commandline=${2:-'False'}
-	local_lhs_commandline_logging=$(echo ${1:?'lhs_commandline is unset or empty'} | tr -d '\t' | tr -d '\n')
+
+	local local_lhs_commandline_logging=$(echo ${1:?'lhs_commandline is unset or empty'} | tr -d '\t' | tr -d '\n')
 
 	if [[ "${eval_commandline}" == "True" ]]; then
 		echo "${local_lhs_commandline_logging}"
 	else
-		echo "Running commandline [ ${local_lhs_commandline_logging} ]"
+		echo "Running commandline [ ${local_lhs_commandline_logging} ]" | eval $tee_command
 	fi
 
 }
