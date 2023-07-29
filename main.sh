@@ -61,7 +61,7 @@ export LHS_HELPFUL_LOOKUP_CACHED=true
 # https://thevaluable.dev/zsh-line-editor-configuration-mouseless/
 for script in $(
 	find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh' |
-		grep -v main.sh | grep -v test.sh | grep -v temp.sh | grep -v helpful-commandlines.sh
+		grep -v -E '.*(main.sh|test.sh|temp.sh|helpful-commandlines.sh)$'
 ); do
 	source $script
 done
