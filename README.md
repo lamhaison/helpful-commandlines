@@ -55,7 +55,7 @@ brew uninstall lhs-helpful-commandlines
 brew untap lamhaison/formulae
 brew tap lamhaison/formulae
 brew install lamhaison/formulae/lhs-helpful-commandlines
-
+```
 
 ## Settings when open terminal (I am using iterm)
 ```
