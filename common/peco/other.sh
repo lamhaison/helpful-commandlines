@@ -17,7 +17,10 @@ function lhs_peco_function_list() {
 
 function lhs_peco_helpful_function_list() {
 	local lhs_function_list_cmd="
-		find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh' | grep -v main.sh | xargs cat | grep -e '^function.*\(.+*\)' -e '^aws*\(.+*\)' -e '^peco*\(.+*\)' -e '^lhs*\(.+*\)' \
+		find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh' \
+			-not -path \"${LHS_HELPFUL_LOOKUP}/private-helpful-commandlines/tmp/*\" \
+			-not -path \"${LHS_HELPFUL_LOOKUP}/dotfiles/*\" \
+		| grep -v main.sh | xargs cat | grep -e '^function.*\(.+*\)' -e '^aws*\(.+*\)' -e '^peco*\(.+*\)' -e '^lhs*\(.+*\)' \
 		| tr -d '(){' | awk -F ' ' '{ print (\$1==\"function\") ? \$2 : \$1}' | sort
 	"
 
