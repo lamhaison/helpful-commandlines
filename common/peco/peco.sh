@@ -10,7 +10,7 @@ function lhs_peco_select_history() {
 	fi
 	BUFFER=$(history -n 1 | uniq |
 		eval $tac |
-		peco --query "$LBUFFER")
+		peco --query "$LBUFFER" --initial-filter Regexp)
 	# Move the cursor at then end of the input($#variable_name is to get the length itself)
 	CURSOR=$#BUFFER
 	# zle clear-screen
@@ -70,9 +70,14 @@ function lhs_peco_run_command_to_get_input() {
 
 function lhs_peco_commandline_input() {
 
-	commandline="${1}"
+	local commandline="${1}"
 	local result_cached=${2:-'false'}
 	local input_expired_time="${3:-$lhs_cli_peco_input_expired_time}"
+
+	# To disable caching
+	if [ "$lhs_cli_peco_input_expired_time" = "0" ]; then
+		input_expired_time=0
+	fi
 
 	local md5_hash=$(echo $commandline | md5)
 	local input_folder="${lhs_cli_input:-/tmp/inputs}"
