@@ -10,8 +10,8 @@ function lhs_peco_function_list() {
 		| grep -e '^function.*\(.+*\)' -e '^aws*\(.+*\)' -e '^peco*\(.+*\)' -e '^lhs*\(.+*\)' \
 		| tr -d '(){' | awk -F ' ' '{ print (\$1==\"function\") ? \$2 : \$1}' | sort
 	"
-	# Cache in 1 minute
-	lhs_peco_commandline_input "${lhs_function_list_cmd}" "${LHS_HELPFUL_LOOKUP_CACHED}" "1"
+	# Cache in LHS_HELPFUL_LOOKUP_FUNCTIONS_CACHED_EXPIRED_TIME setting
+	lhs_peco_commandline_input "${lhs_function_list_cmd}" "${LHS_HELPFUL_LOOKUP_CACHED}" "${LHS_HELPFUL_LOOKUP_FUNCTIONS_CACHED_EXPIRED_TIME}"
 
 }
 

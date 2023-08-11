@@ -55,6 +55,8 @@ export LHS_PROJECTS_DIR=~/projects
 # Get all history from folder /opt/lamhaison-tools
 export LHS_HELPFUL_LOOKUP="${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/.."
 export LHS_HELPFUL_LOOKUP_CACHED=true
+# Time for caching function suggestion menu in minutes
+export LHS_HELPFUL_LOOKUP_FUNCTIONS_CACHED_EXPIRED_TIME=$((60 * 8))
 
 # Import sub-commandline.
 # https://yukimemi.netlify.app/all-you-need-is-peco/
