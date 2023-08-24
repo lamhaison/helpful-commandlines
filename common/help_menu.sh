@@ -17,3 +17,11 @@ function lhs_help_all() {
 	CURSOR=$#BUFFER
 
 }
+
+function lhs_help_refresh() {
+	lhs_peco_disable_input_cached
+	lhs_peco_function_list >>/dev/null
+	lhs_peco_helpful_function_list >>/dev/null
+	lhs_peco_enable_input_cached
+
+}
