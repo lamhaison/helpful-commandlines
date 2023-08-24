@@ -63,6 +63,10 @@ function lhs_peco_disable_input_cached() {
 	export lhs_cli_peco_input_expired_time=0
 }
 
+function lhs_peco_enable_input_cached() {
+	export lhs_cli_peco_input_expired_time=10
+}
+
 function lhs_peco_run_command_to_get_input() {
 	peco_commandline=$1
 	eval ${peco_commandline}
