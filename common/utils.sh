@@ -5,6 +5,10 @@
 function lhs_cmd_date_get_month() {
 	date +%m
 }
+
+function lhs_cmd_date_get_year() {
+	date +%Y
+}
 function lhs_cmd_date_get_with_format() {
 	echo $(date "+"${1:-"%Y-%m-%d-%H-%M-%S"})
 }
