@@ -30,8 +30,8 @@ LHS_CHANGE_HISTORY_SETTINGS=${3:-'True'}
 
 if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" ]]; then
 	export HISTFILE="$HOME/.zsh_history"
-	export HISTSIZE=10000
-	export SAVEHIST=10000
+	export HISTSIZE=1048576
+	export SAVEHIST=1048576
 	# Ignore duplicates in command history and increase
 	export HISTCONTROL=ignoredups
 
