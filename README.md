@@ -66,7 +66,8 @@ echo "source /opt/lamhaison-tools/helpful-commandlines/main.sh" >> ~/.bashrc
 
 # How to search commandline
 ```
-Ctrl + H or lhs_help_helpful
+Ctrl + H for search list commandline
+Option + R for search history
 
 ```
 
