@@ -38,3 +38,11 @@ lhs_help_create_os_user_instruction() {
 
 	'
 }
+
+function lhs_help_cache_disabled_all() {
+	lhs_peco_disable_input_cached
+	peco_aws_disable_input_cached
+}
+
+function lhs_help_rm_caching_all() {
+}
