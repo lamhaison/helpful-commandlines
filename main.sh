@@ -28,7 +28,7 @@ fi
 
 LHS_CHANGE_HISTORY_SETTINGS=${3:-'True'}
 
-if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" ]]; then
+if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" && "$(which setopt)" != "" ]]; then
 	export HISTFILE="$HOME/.zsh_history"
 	export HISTSIZE=1048576
 	export SAVEHIST=1048576
@@ -78,7 +78,7 @@ export lhs_cli_log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
 
 LHS_BIND_KEY=${2:-'True'}
 
-if [[ "${LHS_BIND_KEY}" = "True" ]]; then
+if [[ ${LHS_BIND_KEY} == "True" && "$(which zle)" != "" ]]; then
 	# Add hot-keys
 	zle -N lhs_peco_select_history
 
