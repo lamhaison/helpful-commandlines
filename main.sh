@@ -21,11 +21,66 @@ else
 	export HELPFUL_COMMANDLINES_SOURCE_SCRIPTS=${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}
 fi
 
+export LHS_PROJECTS_DIR=~/projects
+# Get all history from folder /opt/lamhaison-tools
+export LHS_HELPFUL_LOOKUP="${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/.."
+export LHS_HELPFUL_LOOKUP_CACHED=true
+# Time for caching function suggestion menu in minutes
+export LHS_HELPFUL_LOOKUP_FUNCTIONS_CACHED_EXPIRED_TIME=$((60 * 8))
+
+# Import sub-commandline.
+# https://yukimemi.netlify.app/all-you-need-is-peco/
+# https://thevaluable.dev/zsh-line-editor-configuration-mouseless/
+for script in $(
+	find "${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}" -type f -name '*.sh' |
+		grep -v -E '.*(main.sh|test.sh|temp.sh|helpful-commandlines.sh)$'
+); do
+
+	# shellcheck disable=SC1090
+	source "${script}"
+done
+
+export lhs_cli_peco_input_expired_time=10
+export lhs_cli_show_commandline=true
+export lhs_cli_input=/tmp/lhs/inputs
+export lhs_cli_logs=/tmp/lhs/logs
+export lhs_cli_log_file_path="${lhs_cli_logs}/lhs-cli.log"
+export lhs_cli_log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
+
+folder_list=("${lhs_cli_input}" "${lhs_cli_logs}")
+for folder in "${folder_list[@]}"; do
+	if [ ! -d "$folder" ]; then
+		mkdir -p "${folder}"
+	fi
+done
+
+# Setup binding keys
+LHS_BIND_KEY=${2:-'True'}
+
+if [[ ${LHS_BIND_KEY} == "True" && "$(which zle)" != "" ]]; then
+	# Add hot-keys
+	zle -N lhs_peco_select_history
+
+	# Using zsh-history-substring-search reserved
+	# bindkey '^r' lhs_peco_select_history
+
+	# Option + r
+	bindkey '®' lhs_peco_select_history
+
+	zle -N lhs_help_all
+	bindkey '^h' lhs_help_all
+
+	# Hot key for git commit suggestions
+	zle -N lhs_git_commit_suggestions_with_hint
+	# Hotkey: Option + gc
+	bindkey '©ç' lhs_git_commit_suggestions_with_hint
+fi
+
+# Setup for history commandlines feature
 # Extend for poco-select-history function
 # export HISTSIZE=20000
 # export SAVEHIST=15000
 # https://github.com/mattjj/my-oh-my-zsh/blob/master/history.zsh
-
 LHS_CHANGE_HISTORY_SETTINGS=${3:-'True'}
 
 if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" && "$(which setopt)" != "" ]]; then
@@ -49,50 +104,4 @@ if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" && "$(which setopt)" != "" ]]; t
 	setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 	setopt HIST_VERIFY          # Don't execute immediately upon history expansion.
 	setopt HIST_BEEP            # Beep when accessing nonexistent history.
-fi
-
-export LHS_PROJECTS_DIR=~/projects
-# Get all history from folder /opt/lamhaison-tools
-export LHS_HELPFUL_LOOKUP="${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}/.."
-export LHS_HELPFUL_LOOKUP_CACHED=true
-# Time for caching function suggestion menu in minutes
-export LHS_HELPFUL_LOOKUP_FUNCTIONS_CACHED_EXPIRED_TIME=$((60 * 8))
-
-# Import sub-commandline.
-# https://yukimemi.netlify.app/all-you-need-is-peco/
-# https://thevaluable.dev/zsh-line-editor-configuration-mouseless/
-for script in $(
-	find ${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS} -type f -name '*.sh' |
-		grep -v -E '.*(main.sh|test.sh|temp.sh|helpful-commandlines.sh)$'
-); do
-	source $script
-done
-
-export lhs_cli_peco_input_expired_time=10
-export lhs_cli_show_commandline=true
-export lhs_cli_input=/tmp/lhs/inputs
-export lhs_cli_logs=/tmp/lhs/logs
-mkdir -p ${lhs_cli_input} ${lhs_cli_logs}
-export lhs_cli_log_file_path="${lhs_cli_logs}/lhs-cli.log"
-export lhs_cli_log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
-
-LHS_BIND_KEY=${2:-'True'}
-
-if [[ ${LHS_BIND_KEY} == "True" && "$(which zle)" != "" ]]; then
-	# Add hot-keys
-	zle -N lhs_peco_select_history
-
-	# Using zsh-history-substring-search reserved
-	# bindkey '^r' lhs_peco_select_history
-
-	# Option + r
-	bindkey '®' lhs_peco_select_history
-
-	zle -N lhs_help_all
-	bindkey '^h' lhs_help_all
-
-	# Hot key for git commit suggestions
-	zle -N lhs_git_commit_suggestions_with_hint
-	# Hotkey: Option + gc
-	bindkey '©ç' lhs_git_commit_suggestions_with_hint
 fi

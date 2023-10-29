@@ -1,6 +1,5 @@
 # helpful-commandlines
-This is the repo to collect helpful commandlines that is used for mac and Linux OS.
-
+This is the repo to collect helpful commandlines that is used for MAC OS.
 
 ## Setup dependencies
 Notes: This document is for macos environment.
@@ -37,6 +36,7 @@ jq-1.6
 
 ## Setup lhs-helpful-commandlines
 ### Setup from homebrew
+**It is easy to setup and run and don't want to change or optimize it**
 #### Install
 ```
 brew tap lamhaison/formulae
@@ -45,34 +45,42 @@ brew install lamhaison/formulae/lhs-helpful-commandlines
 ## Load when start an Iterm terminal
 Add these lines to ~/.bashrc or ~/.zshrc or ~/.bash_profile
 ```
-source "$(which lhs-helpful-commandlines.sh)" "/opt/homebrew/Cellar/lhs-helpful-commandlines/$(brew info lhs-helpful-commandlines | head -1 | awk -F "stable " '{print $2}')" "${HOME}" "True"
-
+source "$(which lhs-helpful-commandlines.sh)" "/opt/homebrew/Cellar/lhs-helpful-commandlines/$(brew info lhs-helpful-commandlines | head -1 | awk -F "stable " '{print $2}')" "True" "True"
 ```
 
-### Re-install the latest version
+### Re-install the latest version(If there are new versions)
 ```
 brew uninstall lhs-helpful-commandlines
 brew untap lamhaison/formulae
 brew tap lamhaison/formulae
 brew install lamhaison/formulae/lhs-helpful-commandlines
+```
 
+## Settings when open terminal (I am using Iterm2)
+**It is easy for you to custom your scripting to fix with your style**
 
-## Settings when open terminal (I am using iterm)
 ```
 mkdir -p /opt/lamhaison-tools && cd /opt/lamhaison-tools
 git clone https://github.com/lamhaison/helpful-commandlines.git
 echo "source /opt/lamhaison-tools/helpful-commandlines/main.sh" >> ~/.bashrc
 ```
 
-# How to search commandline
-```
-Ctrl + H or lhs_help_helpful
-Option + R for search history commandline(As the same with sh-history-substring-search)
+# How to use it?
 
+##  How to search helpful commandline
+```
+Ctrl + h: to and choose the commandline that you want to run(searching and enter to auto fill it to your terminal)
+lhs_help_helpful cmd: only for searching, it will not automatically fill in to your terminal
 ```
 
-# How to enable git commit suggestions
+## How to search your history commandlines
 ```
-Option + gc or lhs_git_commit_suggestions | peco
+Option + r: to select the history commandline that you wan to re-run(searching and enter to auto fill it to your terminal)
+search history commandline: only for searching history, it will not automatically fill in to your termial
+```
+
+## How to enable git commit suggestions
+```
+lhs_git_commit_suggestions: only for searching the list commit message pattern
 ```
 
