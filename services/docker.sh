@@ -6,6 +6,30 @@
 #
 ##
 
+function lhs_docker_install_aws_linux_2_instruction() {
+	cat <<-__EOF__
+		sudo amazon-linux-extras install -y docker
+		sudo service docker start
+		sudo usermod -a -G docker ec2-user
+		sudo chkconfig docker on
+		sudo yum install -y git
+		sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-\$(uname -s)-\$(uname -m) -o /usr/local/bin/docker-compose
+		sudo chmod +x /usr/local/bin/docker-compose
+		echo 'export PATH="/usr/local/bin:\$PATH"' >> ~/.bash_profile
+		source ~/.bash_profile
+		docker-compose version
+	__EOF__
+}
+
+function lhs_docker_upgrade_ubuntu_instruction() {
+	local lhs_docs=$(
+		cat <<-__EOF__
+			https://docs.docker.com/engine/install/ubuntu/
+		__EOF__
+	)
+	echo "$lhs_docs"
+}
+
 function lhs_docker_run_mongodb_client() {
 	echo "\
 		docker run -ti --rm mongo:5.0.10 bash
@@ -65,4 +89,48 @@ function lhs_docker_build_git_secret_image() {
 		RUN git config --global --add safe.directory /repository
 	EOF
 
+}
+
+function lhs_docker_docs_build_image_optimized_instruction() {
+
+	local lhs_docs=$(
+		cat <<-__EOF__
+			Use minimal base images
+			Use multistage builds
+			Use Dockerignore
+			Double-check the dependencies
+			Minimize the image layers
+		__EOF__
+	)
+
+	echo "${lhs_docs}"
+}
+
+function lhs_docker_analyze_docker_image_instruction() {
+
+	local lhs_docs=$(
+		cat <<-__EOF__
+			brew install dive # Install dive to analyze docker image
+			open "https://github.com/wagoodman/dive" # Open dive document
+			dive <image_name> # Analyze docker image
+		__EOF__
+	)
+	echo "${lhs_docs}"
+}
+
+function lhs_docker_docs_all() {
+	local_lhs_docs_add_prefix 'lhs_docker_docs_build_image_optimized_instruction' 'image'
+	local_lhs_docs_add_prefix 'lhs_docker_install_aws_linux_2_instruction' 'install'
+}
+
+function lhs_docker_alpine_install_telnet_instruction() {
+
+	local lhs_docs=$(
+		cat <<-__EOF__
+			apk update
+			apk add busybox-extras
+		__EOF__
+	)
+
+	echo "$lhs_docs"
 }

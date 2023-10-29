@@ -10,7 +10,7 @@ function lhs_peco_select_history() {
 	fi
 	BUFFER=$(history -n 1 | uniq |
 		eval $tac |
-		peco --query "$LBUFFER")
+		peco --query "$LBUFFER" --initial-filter Regexp)
 	# Move the cursor at then end of the input($#variable_name is to get the length itself)
 	CURSOR=$#BUFFER
 	# zle clear-screen
@@ -26,7 +26,14 @@ function lhs_peco_repo_list() {
 			find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 \
 			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '60'
 	)
-	input_project=$(echo ${project_list} | peco)
+	local final_projects=$(
+		cat <<-__EOF__
+			${LHS_TOOLS_DIR}
+			${project_list}
+		__EOF__
+	)
+
+	input_project=$(echo ${final_projects} | peco)
 	echo ${input_project}
 }
 
@@ -56,6 +63,10 @@ function lhs_peco_disable_input_cached() {
 	export lhs_cli_peco_input_expired_time=0
 }
 
+function lhs_peco_enable_input_cached() {
+	export lhs_cli_peco_input_expired_time=10
+}
+
 function lhs_peco_run_command_to_get_input() {
 	peco_commandline=$1
 	eval ${peco_commandline}
@@ -63,9 +74,14 @@ function lhs_peco_run_command_to_get_input() {
 
 function lhs_peco_commandline_input() {
 
-	commandline="${1}"
+	local commandline="${1}"
 	local result_cached=${2:-'false'}
 	local input_expired_time="${3:-$lhs_cli_peco_input_expired_time}"
+
+	# To disable caching
+	if [ "$lhs_cli_peco_input_expired_time" = "0" ]; then
+		input_expired_time=0
+	fi
 
 	local md5_hash=$(echo $commandline | md5)
 	local input_folder="${lhs_cli_input:-/tmp/inputs}"
@@ -85,7 +101,7 @@ function lhs_peco_commandline_input() {
 		local format_text=$(lhs_peco_format_output_text $commandline_result)
 
 		if [ -n "${format_text}" ]; then
-			commandline=$(lhs_util_format_commandline_one_line ${commandline})
+			commandline=$(local_lhs_util_format_commandline_one_line ${commandline})
 			echo "******** [ ${commandline} ] ********" >${input_file_path}
 			echo ${format_text} | tee -a ${input_file_path}
 		else

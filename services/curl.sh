@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function lhs_curl_get_response_headers_only() {
+function lhs_cmd_curl_get_response_headers_only() {
 
 	lhs_curl_url=${1:-'https://devopsmountain.com'}
 	echo "\

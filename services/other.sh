@@ -14,10 +14,3 @@ function lhs_code_function_name_instruction() {
 		add: to add an item.
 __EOF__
 }
-
-function lhs_vi_set_commandlines_instruction() {
-	cat <<-_EOF_
-		: set nu
-		: set nu! or :set nonu
-	_EOF_
-}
