@@ -10,7 +10,8 @@ function lhs_peco_select_history() {
 	fi
 	BUFFER=$(history -n 1 | uniq |
 		eval $tac |
-		peco --query "$LBUFFER" --initial-filter Regexp)
+		# peco --query "$LBUFFER" --initial-filter Regexp)
+		peco --query "$LBUFFER")
 	# Move the cursor at then end of the input($#variable_name is to get the length itself)
 	CURSOR=$#BUFFER
 	# zle clear-screen
