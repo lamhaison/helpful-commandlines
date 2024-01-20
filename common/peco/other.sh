@@ -4,7 +4,7 @@ function lhs_peco_function_list() {
 	# Ignore private function
 	local lhs_function_list_cmd="
 		find \"${LHS_HELPFUL_LOOKUP}\" \
-  			-type d \( -name 'documents' -o -name 'snippets' -o -name '.git' \) -prune \
+  			-type d \( -name 'docs' -o -name 'snippets' -o -name '.git' \) -prune \
   			-o -type f -name '*.sh' -print \
 		| grep -v main.sh | xargs cat | grep -v '^function.*private.*' \
 		| grep -e '^function.*\(.+*\)' -e '^aws*\(.+*\)' -e '^peco*\(.+*\)' -e '^lhs*\(.+*\)' \
@@ -18,7 +18,7 @@ function lhs_peco_function_list() {
 function lhs_peco_helpful_function_list() {
 	local lhs_function_list_cmd="
 		find \"${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}\" \
-  			-type d \( -name 'documents' -o -name 'snippets' -o -name '.git' \) -prune \
+  			-type d \( -name 'docs' -o -name 'snippets' -o -name '.git' \) -prune \
   			-o -type f -name '*.sh' -print \
 		| grep -v main.sh | xargs cat | grep -e '^function.*\(.+*\)' -e '^aws*\(.+*\)' -e '^peco*\(.+*\)' -e '^lhs*\(.+*\)' \
 		| tr -d '(){' | awk -F ' ' '{ print (\$1==\"function\") ? \$2 : \$1}' | sort
