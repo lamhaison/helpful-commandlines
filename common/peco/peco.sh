@@ -1,5 +1,75 @@
+# shellcheck disable=SC2148
 # brew install peco
 # PECO
+
+function lhs_peoc_setting_set_filter_type_with_regex_option() {
+	lhs_peco_setting_set_filter_type_for_history_search "Regexp"
+	lhs_peco_setting_set_filter_type "Regexp"
+}
+
+function lhs_peco_setting_set_filter_type_for_history_search() {
+	filter_type=$1
+
+	# Check input invalid
+	if [[ -z "$filter_type" ]]; then return; fi
+	unset LHS_PECO_FILTER_HISTORY_TYPE
+	export LHS_PECO_FILTER_HISTORY_TYPE=${1:-'IgnoreCase'}
+	echo "Set the filter type for history commandline by peco is ${filter_type}"
+
+}
+
+function lhs_peco_setting_set_filter_type() {
+	filter_type=$1
+	# Check input invalid
+	if [[ -z "$filter_type" ]]; then return; fi
+	unset LHS_PECO_FILTER_TYPE
+	export LHS_PECO_FILTER_TYPE=${1:-'IgnoreCase'}
+	echo "Set the filter type global for peco is ${filter_type}"
+
+}
+
+function lhs_peco_setting_set_filter_type_for_history_search_with_hint() {
+
+	# shellcheck disable=SC2155
+	local lhs_docs=$(
+		cat <<-__EOF__
+			IgnoreCase
+			CaseSensitive
+			SmartCase
+			Regexp
+			Fuzzy
+		__EOF__
+	)
+
+	# shellcheck disable=SC2155
+	local filter_type=$(echo "$lhs_docs" | peco)
+
+	# Check input is valid and process it
+	[ -z "$filter_type" ] || lhs_peco_setting_set_filter_type_for_history_search "${filter_type}"
+
+}
+
+function lhs_peco_setting_set_filter_type_with_hint() {
+
+	# shellcheck disable=SC2155
+	local lhs_docs=$(
+		cat <<-__EOF__
+			IgnoreCase
+			CaseSensitive
+			SmartCase
+			Regexp
+			Fuzzy
+		__EOF__
+	)
+
+	# shellcheck disable=SC2155
+	local filter_type=$(echo "$lhs_docs" | peco)
+
+	# Check input is valid and process it
+	[ -z "$filter_type" ] || lhs_peco_setting_set_filter_type "${filter_type}"
+
+}
+
 function lhs_peco_select_history() {
 	local tac
 	if which tac >/dev/null; then
@@ -10,8 +80,8 @@ function lhs_peco_select_history() {
 	fi
 	BUFFER=$(history -n 1 | uniq |
 		eval $tac |
-		# peco --query "$LBUFFER" --initial-filter Regexp)
-		peco --query "$LBUFFER")
+		peco --query "$LBUFFER" --initial-filter ${LHS_PECO_FILTER_HISTORY_TYPE})
+	# peco --query "$LBUFFER")
 	# Move the cursor at then end of the input($#variable_name is to get the length itself)
 	CURSOR=$#BUFFER
 	# zle clear-screen
@@ -22,10 +92,11 @@ function lhs_peco_history() {
 }
 
 function lhs_peco_repo_list() {
+	# Almost expired (1000000)
 	project_list=$(
 		lhs_peco_commandline_input "\
 			find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 \
-			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '60'
+			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '1000000'
 	)
 	local final_projects=$(
 		cat <<-__EOF__
@@ -80,7 +151,7 @@ function lhs_peco_commandline_input() {
 	local input_expired_time="${3:-$lhs_cli_peco_input_expired_time}"
 
 	# To disable caching
-	if [ "$lhs_cli_peco_input_expired_time" = "0" ]; then
+	if [[ "$lhs_cli_peco_input_expired_time" = "0" ]]; then
 		input_expired_time=0
 	fi
 
@@ -92,7 +163,7 @@ function lhs_peco_commandline_input() {
 	local valid_file=$(find ${input_folder} -name ${md5_hash}.txt -mmin +${input_expired_time})
 
 	# The file is existed and not empty and the flag result_cached is not empty
-	if [ -z "${valid_file}" ] && [ -f "${input_file_path}" ] && [ -z "${empty_file}" ] && [ "true" = "${result_cached}" ]; then
+	if [[ -z "${valid_file}" ]] && [[ -f "${input_file_path}" ]] && [[ -z "${empty_file}" ]] && [[ "true" = "${result_cached}" ]]; then
 		# Ignore the first line.
 		grep -Ev "\*\*\*\*\*\*\*\* \[.*\]" $input_file_path
 		# cat $input_file_path |
@@ -101,7 +172,7 @@ function lhs_peco_commandline_input() {
 
 		local format_text=$(lhs_peco_format_output_text $commandline_result)
 
-		if [ -n "${format_text}" ]; then
+		if [[ -n "${format_text}" ]]; then
 			commandline=$(local_lhs_util_format_commandline_one_line ${commandline})
 			echo "******** [ ${commandline} ] ********" >${input_file_path}
 			echo ${format_text} | tee -a ${input_file_path}

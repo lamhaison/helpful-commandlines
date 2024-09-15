@@ -16,7 +16,7 @@ function lhs_help_all() {
 	# Support both function function_name() { or function_name with prefix aws_bla_bla() {
 	# shellcheck disable=SC2155
 	local lhs_functions=$(lhs_peco_function_list)
-	local lhs_option=${1:-IgnoreCase}
+	local lhs_option=${1:-"${LHS_PECO_FILTER_TYPE}"}
 	BUFFER=$(
 		echo "${lhs_functions}" | peco --query "$LBUFFER" --initial-filter "${lhs_option}"
 	)

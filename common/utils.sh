@@ -112,7 +112,7 @@ function local_lhs_run_commandline() {
 function local_lhs_commandline_logging() {
 
 	local log_file_path=${aws_cli_logs}/${ASSUME_ROLE}.log
-	local tee_command="tee -a ${lhs_cli_log_file_path}"
+	local tee_command="tee -a ${log_file_path}"
 
 	local eval_commandline=${2:-'False'}
 
@@ -128,13 +128,13 @@ function local_lhs_commandline_logging() {
 
 function local_local_lhs_run_commandline_with_logging() {
 	lhs_commandline=$1
-	if [ "$lhs_show_log_uploaded" = "true" ]; then
+	if [[ "$lhs_show_log_uploaded" = "true" ]]; then
 		local tee_command="tee -a ${lhs_cli_log_file_path} ${lhs_cli_log_uploaded_file_path}"
 	else
 		local tee_command="tee -a ${lhs_cli_log_file_path}"
 	fi
 
-	if [ "$lhs_cli_show_commandline" = "true" ]; then
+	if [[ "$lhs_cli_show_commandline" = "true" ]]; then
 		local detail_commandline_tee_command="${tee_command}"
 	else
 		local detail_commandline_tee_command="${tee_command} > /dev/null"

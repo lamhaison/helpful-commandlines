@@ -47,9 +47,16 @@ export lhs_cli_logs=/tmp/lhs/logs
 export lhs_cli_log_file_path="${lhs_cli_logs}/lhs-cli.log"
 export lhs_cli_log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
 
+# For peco settings
+# --initial-filter IgnoreCase|CaseSensitive|SmartCase|Regexp|Fuzzy
+# Only for history
+export LHS_PECO_FILTER_HISTORY_TYPE=${4:-'IgnoreCase'}
+# For global
+export LHS_PECO_FILTER_TYPE=${5:-'IgnoreCase'}
+
 folder_list=("${lhs_cli_input}" "${lhs_cli_logs}")
 for folder in "${folder_list[@]}"; do
-	if [ ! -d "$folder" ]; then
+	if [[ ! -d "$folder" ]]; then
 		mkdir -p "${folder}"
 	fi
 done

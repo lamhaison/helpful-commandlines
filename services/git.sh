@@ -94,7 +94,7 @@ function lhs_git_commit_suggestions() {
 
 function lhs_git_commit_suggestions_with_hint() {
 	local lhs_input=$(
-		lhs_git_commit_suggestions | peco --query "$LBUFFER" --prompt "Git commit suggestions >"
+		lhs_git_commit_suggestions | peco --query "$LBUFFER" --prompt "Git commit suggestions >" --initial-filter "${LHS_PECO_FILTER_TYPE}"
 	)
 
 	# To check it is example.
