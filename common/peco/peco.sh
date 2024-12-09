@@ -2,7 +2,7 @@
 # brew install peco
 # PECO
 
-function lhs_peoc_setting_set_filter_type_with_regex_option() {
+function lhs_peco_setting_set_filter_type_with_regex_option() {
 	lhs_peco_setting_set_filter_type_for_history_search "Regexp"
 	lhs_peco_setting_set_filter_type "Regexp"
 }
