@@ -96,17 +96,32 @@ function lhs_peco_repo_list() {
 	project_list=$(
 		lhs_peco_commandline_input "\
 			find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 \
-			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '1000000'
+			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '0'
 	)
+
+	iac_aws_project_list=$(
+		lhs_peco_commandline_input "\
+			find "${RAKKAR_TF_IAC_PATH}/environments/aws" -type d -maxdepth 2 \
+			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '0'
+	)
+	iac_gcp_project_list=$(
+		lhs_peco_commandline_input "\
+			find "${RAKKAR_TF_IAC_PATH}/environments/gcp" -type d -maxdepth 2 \
+			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '0'
+	)
+
 	local final_projects=$(
 		cat <<-__EOF__
 			${LHS_TOOLS_DIR}
 			${project_list}
+			${iac_aws_project_list}
+			${iac_gcp_project_list}
+
 		__EOF__
 	)
 
-	input_project=$(echo ${final_projects} | peco)
-	echo ${input_project}
+	input_project=$(echo "${final_projects}" | sort | uniq | peco)
+	echo "${input_project}"
 }
 
 function lhs_peco_format_name_convention_pre_defined() {
@@ -121,18 +136,20 @@ function lhs_peco_format_output_text() {
 
 function lhs_peco_name_convention_input() {
 	local text_input=$1
-	local format_text=$(lhs_peco_format_name_convention_pre_defined $text_input)
-	echo $format_text
+	local format_text
+	format_text=$(lhs_peco_format_name_convention_pre_defined "$text_input")
+	echo "$format_text"
 }
 
 function lhs_peco_create_menu_with_array_input() {
 	local text_input=$1
-	local format_text=$(lhs_peco_format_name_convention_pre_defined $text_input)
-	echo $format_text
+	local format_text
+	format_text=$(lhs_peco_format_name_convention_pre_defined "$text_input")
+	echo "$format_text"
 }
 
 function lhs_peco_disable_input_cached() {
-	export lhs_cli_peco_input_expired_time=0
+	export lhs_cli_peco_input_expired_time=-1
 }
 
 function lhs_peco_enable_input_cached() {
@@ -141,46 +158,75 @@ function lhs_peco_enable_input_cached() {
 
 function lhs_peco_run_command_to_get_input() {
 	peco_commandline=$1
-	eval ${peco_commandline}
+	eval "${peco_commandline}"
 }
 
 function lhs_peco_commandline_input() {
 
+	# set -x
 	local commandline="${1}"
 	local result_cached=${2:-'false'}
 	local input_expired_time="${3:-$lhs_cli_peco_input_expired_time}"
-
-	# To disable caching
-	if [[ "$lhs_cli_peco_input_expired_time" = "0" ]]; then
-		input_expired_time=0
+	local input_file_path
+	local md5_hash
+	local input_folder
+	local empty_file
+	local valid_file
+	local commandline_result
+	local format_text
+	
+	md5_hash=$(echo "$commandline" | md5)
+	input_folder="${lhs_cli_input:-/tmp/inputs}"
+	
+	# Check folder exists
+	if [[ ! -d "${input_folder}" ]]; then
+		mkdir -p "${input_folder}"
 	fi
 
-	local md5_hash=$(echo $commandline | md5)
-	local input_folder="${lhs_cli_input:-/tmp/inputs}"
-	mkdir -p ${input_folder}
-	local input_file_path="${input_folder}/${md5_hash}.txt"
-	local empty_file=$(find ${input_folder} -name ${md5_hash}.txt -empty)
-	local valid_file=$(find ${input_folder} -name ${md5_hash}.txt -mmin +${input_expired_time})
+	input_file_path="${input_folder}/${md5_hash}.txt"
+	empty_file=$(find "${input_folder}" -name "${md5_hash}.txt" -empty)
 
-	# The file is existed and not empty and the flag result_cached is not empty
-	if [[ -z "${valid_file}" ]] && [[ -f "${input_file_path}" ]] && [[ -z "${empty_file}" ]] && [[ "true" = "${result_cached}" ]]; then
-		# Ignore the first line.
-		grep -Ev "\*\*\*\*\*\*\*\* \[.*\]" $input_file_path
-		# cat $input_file_path |
+
+	# Disable cache as global setting
+	if [[ "$lhs_cli_peco_input_expired_time" = "-1" ]]; then
+		result_cached=false
 	else
-		local commandline_result=$(lhs_peco_run_command_to_get_input "$commandline")
 
-		local format_text=$(lhs_peco_format_output_text $commandline_result)
+		# if input_expired_time is not 0, then find the file that is not expired
+		if [[ "$input_expired_time" -gt 0 ]]; then
+
+			# Check the file is create within the input_expired_time
+			valid_file=$(find "${input_folder}" -name "${md5_hash}.txt" -mmin -"${input_expired_time}")
+		else
+			# Load cache without expired time
+			# TTL is unlimited
+			valid_file=$(find "${input_folder}" -name "${md5_hash}.txt")
+		fi
+	fi
+
+	
+	# The file is existed and not empty and the flag result_cached is not empty
+	if [[ "true" == "${result_cached}" ]] && [[ -f "${input_file_path}" ]] && [[ -z "${empty_file}" ]] && [[ -n "${valid_file}" ]]; then
+		# echo "load from cache"
+		# Ignore the first line.
+		grep -Ev "\*\*\*\*\*\*\*\* \[.*\]" "$input_file_path"
+	else
+		# echo "Query and save to cache"
+		commandline_result=$(lhs_peco_run_command_to_get_input "$commandline")
+
+		format_text=$(lhs_peco_format_output_text "$commandline_result")
 
 		if [[ -n "${format_text}" ]]; then
-			commandline=$(local_lhs_util_format_commandline_one_line ${commandline})
-			echo "******** [ ${commandline} ] ********" >${input_file_path}
-			echo ${format_text} | tee -a ${input_file_path}
+			commandline=$(local_lhs_util_format_commandline_one_line "${commandline}")
+			echo "******** [ ${commandline} ] ********" >"${input_file_path}"
+			echo "${format_text}" | tee -a "${input_file_path}"
 		else
 			echo "Can not get the data"
 		fi
 
 	fi
+
+	# set +x
 
 }
 
@@ -188,6 +234,14 @@ function lhs_peco_create_menu() {
 	local input_function=$1
 	local peco_options=$2
 	local peco_command="peco ${peco_options}"
-	local input_value=$(echo "$(eval $input_function)" | eval ${peco_command})
-	echo ${input_value:?'Can not get the input from peco menu'}
+	local input_value
+
+	# Check input_function is valid
+	if [[ -z "$input_function" ]]; then
+		echo "Input function is empty"
+		return 1
+	fi
+
+	input_value=$(eval "${input_function}" | eval "${peco_command}")
+	echo "${input_value:?'Can not get the input from peco menu'}"
 }

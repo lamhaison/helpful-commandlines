@@ -25,7 +25,7 @@ function lhs_peco_helpful_function_list() {
 		| tr -d '(){' | awk -F ' ' '{ print (\$1==\"function\") ? \$2 : \$1}' | sort
 	"
 
-	# Cache in 1 minute
-	lhs_peco_commandline_input "${lhs_function_list_cmd}" "${LHS_HELPFUL_LOOKUP_CACHED}" "1"
+	# Cache without expired time
+	lhs_peco_commandline_input "${lhs_function_list_cmd}" "${LHS_HELPFUL_LOOKUP_CACHED}" "0"
 
 }
