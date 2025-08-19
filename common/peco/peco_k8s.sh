@@ -33,3 +33,13 @@ function peco_k8s_daemonset_list() {
 	peco_k8s_input "kubectl get daemonset --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
 }
+
+function peco_k8s_hpa_list() {
+	peco_k8s_input "kubectl get hpa --all-namespaces \
+		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
+}
+
+function peco_k8s_cronjob_list() {
+	peco_k8s_input "kubectl get cronjob --all-namespaces \
+		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
+}
