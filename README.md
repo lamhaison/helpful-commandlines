@@ -45,7 +45,7 @@ brew install lamhaison/formulae/lhs-helpful-commandlines
 ## Load when start an Iterm terminal
 Add these lines to ~/.bashrc or ~/.zshrc or ~/.bash_profile
 ```
-source "$(which lhs-helpful-commandlines.sh)" "/opt/homebrew/Cellar/lhs-helpful-commandlines/$(brew info lhs-helpful-commandlines | head -1 | awk -F "stable " '{print $2}')" "True" "True"
+source "$(which lhs-helpful-commandlines.sh)" "/opt/homebrew/Cellar/lhs-helpful-commandlines/$(brew info lhs-helpful-commandlines | grep -E '==> .*: stable (.*)$' | sed -E 's|==> .*: stable (.*)$|\1|g')" "True" "True"
 ```
 
 ### Re-install the latest version(If there are new versions)
