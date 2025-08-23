@@ -95,7 +95,7 @@ function lhs_peco_repo_list() {
 	# Almost expired (1000000)
 	project_list=$(
 		lhs_peco_commandline_input "\
-			find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 6 \
+			find ${LHS_PROJECTS_DIR} -type d -name '.git' -maxdepth 8 \
 			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '0'
 	)
 
