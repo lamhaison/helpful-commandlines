@@ -72,19 +72,19 @@ function lhs_docker_build_git_secret_image() {
 		RUN git secrets --add --global "(glpat)-[a-zA-Z0-9\-]{20}"
 
 		# Jenkins token
-		RUN git secrets --add --global "[a-zA-Z0-9]{32}"
+		#RUN git secrets --add --global "[a-zA-Z0-9]{32}"
 
 		# Backlog token
-		RUN git secrets --add --global "[a-zA-Z0-9]{64}"
+		#RUN git secrets --add --global "[a-zA-Z0-9]{64}"
 
 		# AWS account id such as 123456789123
-		RUN git secrets --add --global "^[0-9]{12}$"
+		#RUN git secrets --add --global "^[0-9]{12}$"
 
 		# NewRelic
 		RUN git secrets --add --global "[0-9a-zA-Z]{36}NRAL"
 
 		# Git allow pattern
-		RUN git secrets --add --global --allowed '(8fe7937f147a6cb0ed446ef3ac17f972|da04f0c3b2a114f952bac215d3808223)'
+		# RUN git secrets --add --global --allowed '(uuid_1|uuid_2)'
 		WORKDIR /repository
 		RUN git config --global --add safe.directory /repository
 	EOF

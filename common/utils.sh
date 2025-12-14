@@ -148,9 +148,8 @@ function local_local_lhs_run_commandline_with_logging() {
 }
 
 function local_lhs_util_rm_space() {
-	# echo "${1}" | sed 's/[[:space:]]//g'
-	# https://stackoverflow.com/questions/13659318/how-to-remove-space-from-string
-	echo "${1//+([[:space:]])/}"
+	# Remove spaces from the input string
+	echo "${1}" | tr -d '\t' | tr -d ' '
 }
 
 function local_lhs_util_format_commandline_one_line() {

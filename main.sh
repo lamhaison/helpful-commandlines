@@ -94,8 +94,11 @@ if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" && "$(which setopt)" != "" ]]; t
 	export HISTFILE="$HOME/.zsh_history"
 	export HISTSIZE=1048576
 	export SAVEHIST=1048576
-	# Ignore duplicates in command history and increase
-	export HISTCONTROL=ignoredups
+
+	# ignoredups - Do not record duplicate commands consecutively.
+	# ignoredups - Ignore commands prefixed with a space.
+	# ignoreboth - ignoredups and ignoredups - ignorespace:ignoredups
+	export HISTCONTROL=ignoreboth
 
 	setopt BANG_HIST              # Treat the '!' character specially during expansion.
 	setopt EXTENDED_HISTORY       # Write the history file in the ":start:elapsed;command" format.
