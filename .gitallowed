@@ -1,0 +1,8 @@
+# Git-secrets allowed patterns - patterns that should be ignored during scanning
+# This file prevents false positives when git-secrets scans configuration files
+
+# Allow pattern definitions in configuration files
+BEGIN.*PRIVATE.*KEY
+git secrets --add --global
+RUN git secrets --add --global
+
