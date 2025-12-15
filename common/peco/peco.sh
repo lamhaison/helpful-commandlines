@@ -78,11 +78,15 @@ function lhs_peco_select_history() {
 		# Displays the output from the end of the file in reverse order.
 		tac="tail -r"
 	fi
+	# shellcheck disable=SC2034
+
+	# shellcheck disable=SC2153
 	BUFFER=$(history -n 1 | uniq |
 		eval $tac |
 		peco --query "$LBUFFER" --initial-filter ${LHS_PECO_FILTER_HISTORY_TYPE})
 	# peco --query "$LBUFFER")
 	# Move the cursor at then end of the input($#variable_name is to get the length itself)
+	# shellcheck disable=SC2034
 	CURSOR=$#BUFFER
 	# zle clear-screen
 }
@@ -95,8 +99,9 @@ function lhs_peco_repo_list() {
 			| awk -F '/' '{for (i=1; i<NF; i++) printf \$i \"/\"; print '\n'}'" 'true' '0'
 	)
 
-	local final_projects=$(
-		cat <<-__EOF__			
+	local final_projects
+	final_projects=$(
+		cat <<-__EOF__
 			${project_list}
 		__EOF__
 	)
@@ -155,10 +160,10 @@ function lhs_peco_commandline_input() {
 	local valid_file
 	local commandline_result
 	local format_text
-	
+
 	md5_hash=$(echo "$commandline" | md5)
 	input_folder="${lhs_cli_input:-/tmp/inputs}"
-	
+
 	# Check folder exists
 	if [[ ! -d "${input_folder}" ]]; then
 		mkdir -p "${input_folder}"
@@ -183,7 +188,7 @@ function lhs_peco_commandline_input() {
 		result_cached=false
 	fi
 
-	
+
 	# The file is existed and not empty and the flag result_cached is not empty
 	if [[ "true" == "${result_cached}" ]] && [[ -f "${input_file_path}" ]] && [[ -z "${empty_file}" ]] && [[ -n "${valid_file}" ]]; then
 		# echo "load from cache"

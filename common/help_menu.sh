@@ -2,12 +2,19 @@
 
 function lhs_help_helpful() {
 	# Support both function function_name() { or function_name with prefix aws_bla_bla() {
-	local lhs_functions=$(lhs_peco_helpful_function_list)
+	local lhs_functions
+	lhs_functions=$(lhs_peco_helpful_function_list)
 	local lhs_option=${1:-IgnoreCase}
 
+	# Use peco to filter and select from the list of helpful functions
+	# LBUFFER contains the current command line buffer content
+	# The selected function will be stored in BUFFER
 	BUFFER=$(
+		# shellcheck disable=SC2153
 		echo "${lhs_functions}" | peco --query "$LBUFFER" --initial-filter "${lhs_option}"
 	)
+
+	# shellcheck disable=SC2034
 	CURSOR=$#BUFFER
 
 }
@@ -15,11 +22,18 @@ function lhs_help_helpful() {
 function lhs_help_all() {
 	# Support both function function_name() { or function_name with prefix aws_bla_bla() {
 	# shellcheck disable=SC2155
-	local lhs_functions=$(lhs_peco_function_list)
-	local lhs_option=${1:-"${LHS_PECO_FILTER_TYPE}"}
+	local lhs_functions
+	local lhs_option
+
+	lhs_functions=$(lhs_peco_function_list)
+	lhs_option=${1:-"${LHS_PECO_FILTER_TYPE}"}
+
+	# shellcheck disable=SC2034
 	BUFFER=$(
 		echo "${lhs_functions}" | peco --query "$LBUFFER" --initial-filter "${lhs_option}"
 	)
+
+	# shellcheck disable=SC2034
 	CURSOR=$#BUFFER
 
 }

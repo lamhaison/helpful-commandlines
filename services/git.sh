@@ -8,9 +8,9 @@ function lhs_git_scan_secrets() {
 	local image_name="gitsecrets"
 	lhs_docker_build_git_secret_image
 	echo "\033[31m Scan history \033[0m"
-	docker run --rm -v $(pwd):/repository:ro ${image_name} git secrets --scan-history
+	docker run --rm -v "$(pwd)":/repository:ro "${image_name}" git secrets --scan-history
 	echo "\033[31m Scan recursive \033[0m"
-	docker run --rm -v $(pwd):/repository:ro ${image_name} git secrets --scan -r /repository
+	docker run --rm -v "$(pwd)":/repository:ro "${image_name}" git secrets --scan -r /repository
 }
 
 function lhs_git_set_pre_defined_commit_template() {
@@ -44,7 +44,7 @@ function lhs_git_set_pre_defined_commit_template() {
 
 		# Multi-line description of commit, feel free to be detailed. (the body should be restricted to 72 characters)
 
-		#Further paragraphs come after blank lines.  
+		#Further paragraphs come after blank lines.
 		# - Bullet points are okay, too
 		# - Typically a hyphen or asterisk is used for the bullet, preceded by a single space, with blank lines in between, but conventions vary here
 
@@ -93,15 +93,22 @@ function lhs_git_commit_suggestions() {
 }
 
 function lhs_git_commit_suggestions_with_hint() {
-	local lhs_input=$(
+	local lhs_input
+
+	lhs_input=$(
 		lhs_git_commit_suggestions | peco --query "$LBUFFER" --prompt "Git commit suggestions >" --initial-filter "${LHS_PECO_FILTER_TYPE}"
 	)
 
 	# To check it is example.
+	# shellcheck disable=SC2034
 	if [[ $lhs_input = Ex:* ]]; then
 		BUFFER=$(echo "${lhs_input}" | awk -F "Ex:" '{print $2}')
 	else
 		BUFFER=${lhs_input}
 	fi
+
+	# shellcheck disable=SC2034
 	CURSOR=$#BUFFER
 }
+
+# End of file

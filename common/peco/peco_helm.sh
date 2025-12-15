@@ -19,5 +19,3 @@ function peco_k8s_helm_list_revisions() {
 	peco_k8s_input "helm history '$release_name' -n '${namespace}' | grep -v 'REVISION' \
 		| awk -F '\t' 'BEGIN { OFS=\"  |   \" } { print \$1,\$2,\$3,\$4,\$5,\$6}' | grep -v 'NAME'"
 }
-
-

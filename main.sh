@@ -51,6 +51,9 @@ export lhs_cli_logs=/tmp/lhs/logs
 export lhs_cli_log_file_path="${lhs_cli_logs}/lhs-cli.log"
 export lhs_cli_log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
 
+# Retry settings
+export ignored_error_when_retry="false"
+
 # For peco settings
 # --initial-filter IgnoreCase|CaseSensitive|SmartCase|Regexp|Fuzzy
 # Only for history
