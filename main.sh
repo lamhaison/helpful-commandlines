@@ -40,6 +40,10 @@ for script in $(
 	source "${script}"
 done
 
+# -1: Disable caching
+# 0: cache without expiration
+# >0: cache with expiration time (in minutes)
+
 export lhs_cli_peco_input_expired_time=10
 export lhs_cli_show_commandline=true
 export lhs_cli_input=/tmp/lhs/inputs
@@ -95,9 +99,9 @@ if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" && "$(which setopt)" != "" ]]; t
 	export HISTSIZE=1048576
 	export SAVEHIST=1048576
 
-	# ignoredups - Do not record duplicate commands consecutively.
-	# ignoredups - Ignore commands prefixed with a space.
-	# ignoreboth - ignoredups and ignoredups - ignorespace:ignoredups
+	# ignoredups: Do not record duplicate commands consecutively
+	# ignorespace: Ignore commands prefixed with a space
+	# ignoreboth: Combines both ignoredups and ignorespace
 	export HISTCONTROL=ignoreboth
 
 	setopt BANG_HIST              # Treat the '!' character specially during expansion.
