@@ -172,16 +172,15 @@ function lhs_peco_commandline_input() {
 	if [[ "$lhs_cli_peco_input_expired_time" = "-1" ]]; then
 		result_cached=false
 	elif [[ "$input_expired_time" -eq 0 ]]; then
-		# If input_expired_time is 0, disable caching (backward compatible: 0 means no caching)
-		result_cached=false
+		# If input_expired_time is 0, cache without expiration (TTL is unlimited)
+		valid_file=$(find "${input_folder}" -name "${md5_hash}.txt")
 	elif [[ "$input_expired_time" -gt 0 ]]; then
 		# If input_expired_time is greater than 0, find the file that is not expired
 		# Check the file is created within the input_expired_time
 		valid_file=$(find "${input_folder}" -name "${md5_hash}.txt" -mmin -"${input_expired_time}")
 	else
-		# Load cache without expired time
-		# TTL is unlimited
-		valid_file=$(find "${input_folder}" -name "${md5_hash}.txt")
+		# Default behavior for negative values other than -1
+		result_cached=false
 	fi
 
 	

@@ -13,7 +13,7 @@ function lhs_docker_install_aws_linux_2_instruction() {
 		sudo usermod -a -G docker ec2-user
 		sudo chkconfig docker on
 		sudo yum install -y git
-		sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-\$(uname -s)-\$(uname -m) -o /usr/local/bin/docker-compose
+		sudo curl -L https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-\$(uname -s)-\$(uname -m) -o /usr/local/bin/docker-compose
 		sudo chmod +x /usr/local/bin/docker-compose
 		echo 'export PATH="/usr/local/bin:\$PATH"' >> ~/.bash_profile
 		source ~/.bash_profile
@@ -33,9 +33,7 @@ function lhs_docker_upgrade_ubuntu_instruction() {
 function lhs_docker_run_mongodb_client() {
 	echo "\
 		docker run -ti --rm mongo:5.0.10 bash
-		Running [mongosh endpoint]
-		
-	"
+		Running [mongosh endpoint]"
 	docker run -ti --rm mongo:5.0.10 bash
 }
 
@@ -88,8 +86,8 @@ function lhs_docker_build_git_secret_image() {
 		# Generic JWT tokens
 		RUN git secrets --add --global "eyJ[a-zA-Z0-9+/]*\.[a-zA-Z0-9+/]*\.[a-zA-Z0-9+/\-_]*"
 		
-		# Generic API keys (32+ alphanumeric characters)
-		RUN git secrets --add --global "[a-zA-Z0-9]{32,}"
+		# Generic API keys and tokens with common prefixes (32+ alphanumeric characters)
+		RUN git secrets --add --global "(api[_-]?key|apikey|token|secret|access[_-]?token)[=:\"' ]+[a-zA-Z0-9]{32,}"
 		
 		# Database connection strings
 		RUN git secrets --add --global "(mongodb|mysql|postgres)://[^\\s]*:[^\\s]*@"
@@ -109,9 +107,7 @@ function lhs_docker_build_git_secret_image() {
 	
 	echo "✅ Image '${image_name}' built successfully!"
 	echo "📖 Usage: docker run -v \$(pwd):/repository ${image_name} git secrets --scan"
-	echo "🔍 Scan current directory: docker run -v \$(pwd):/repository ${image_name} git secrets --scan"
-	echo "🛠️  Install hooks: docker run -v \$(pwd):/repository ${image_name} git secrets --install"
-	echo "💡 Tip: Run 'lhs_docker_create_gitallowed' to create .gitallowed file for false positives"
+	echo "🛠️ Install hooks: docker run -v \$(pwd):/repository ${image_name} git secrets --install"
 }
 
 
@@ -167,7 +163,6 @@ function lhs_docker_scan_secrets() {
 			echo ""
 			echo "💡 Tips:"
 			echo "  • Create .gitallowed file to handle false positives"
-			echo "  • Run lhs_docker_create_gitallowed for common exclusions"
 			return 0
 			;;
 	esac
@@ -227,7 +222,7 @@ function lhs_docker_scan_secrets() {
 		echo "  4. Re-run the scan to verify fixes"
 		echo ""
 		echo "💡 Quick fixes:"
-		echo "  • Create .gitallowed: lhs_docker_create_gitallowed"
+		echo "  • Create .gitallowed file to handle false positives"
 		echo "  • Scan again: lhs_docker_scan_secrets"
 	fi
 	
