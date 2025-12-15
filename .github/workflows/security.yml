@@ -42,11 +42,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install shfmt
+        run: |
+          wget -qO /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/latest/download/shfmt_v3.8.0_linux_amd64
+          chmod +x /usr/local/bin/shfmt
+
       - name: Check shell formatting
-        uses: scop/action-shfmt@v3
-        with:
-          scandir: '.'
-          args: '-i 2 -bn -ci -sr'
+        run: shfmt -i 2 -bn -ci -sr -d .
 
   lint:
     name: 📋 Linting & Validation
