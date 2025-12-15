@@ -44,8 +44,8 @@ jobs:
 
       - name: Install shfmt
         run: |
-          wget -qO /usr/local/bin/shfmt https://github.com/mvdan/sh/releases/latest/download/shfmt_v3.8.0_linux_amd64
-          chmod +x /usr/local/bin/shfmt
+          curl -sS https://webi.sh/shfmt | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Check shell formatting
         run: shfmt -i 2 -bn -ci -sr -d .
