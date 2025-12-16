@@ -1,0 +1,9 @@
+# Gitleaks ignore file for false positives
+# These are secret detection patterns, not actual secrets
+
+# Allow secret detection patterns in docker.sh
+services/docker.sh:98:BEGIN.*PRIVATE.*KEY
+services/docker.sh:*:RUN git secrets --add --global
+
+# Allow patterns used for git-secrets configuration
+**/*.sh:*:git secrets --add

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function lhs_mysql_dump_db {
-	echo '
+    echo '
 		db_username=
 		db_password=
 		db_address=

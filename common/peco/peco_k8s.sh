@@ -1,45 +1,45 @@
 #!/bin/bash
 function peco_k8s_input() {
-	lhs_peco_commandline_input "${1}" 'true'
+    lhs_peco_commandline_input "${1}" 'true'
 }
 
 function peco_k8s_namespace_list() {
-	peco_k8s_input "kubectl get namespaces | awk -F ' ' '{print \$1}' | grep -v 'NAME'"
+    peco_k8s_input "kubectl get namespaces | awk -F ' ' '{print \$1}' | grep -v 'NAME'"
 
 }
 
 function peco_k8s_deployment_list() {
-	peco_k8s_input "kubectl get deployments --all-namespaces \
+    peco_k8s_input "kubectl get deployments --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
 }
 
 function peco_k8s_pod_list() {
-	peco_k8s_input "kubectl get pods --all-namespaces \
+    peco_k8s_input "kubectl get pods --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
 }
 
 function peco_k8s_pod_list_reloaded() {
-	lhs_peco_commandline_input "kubectl get pods --all-namespaces \
+    lhs_peco_commandline_input "kubectl get pods --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'" 'false'
 }
 
 function peco_k8s_ingress_list() {
-	peco_k8s_input "kubectl get ingress --all-namespaces \
+    peco_k8s_input "kubectl get ingress --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
 
 }
 
 function peco_k8s_daemonset_list() {
-	peco_k8s_input "kubectl get daemonset --all-namespaces \
+    peco_k8s_input "kubectl get daemonset --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
 }
 
 function peco_k8s_hpa_list() {
-	peco_k8s_input "kubectl get hpa --all-namespaces \
+    peco_k8s_input "kubectl get hpa --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
 }
 
 function peco_k8s_cronjob_list() {
-	peco_k8s_input "kubectl get cronjob --all-namespaces \
+    peco_k8s_input "kubectl get cronjob --all-namespaces \
 		| awk -F ' ' 'BEGIN { OFS=\"  |   \" } { print \$2,\$1}' | grep -v 'NAME'"
 }

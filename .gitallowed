@@ -1,0 +1,5 @@
+# Gitleaks allowed patterns - false positives
+# These are secret detection patterns used in git-secrets configuration, not actual secrets
+
+BEGIN.*PRIVATE.*KEY
+git secrets --add --global

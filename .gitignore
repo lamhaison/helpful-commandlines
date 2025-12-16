@@ -1,2 +1,4 @@
 services/tmp.sh
 service/temp.sh
+# Testing scan secret files
+test-private-key-demo.txt

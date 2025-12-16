@@ -10,15 +10,15 @@
 HELPFUL_COMMANDLINES_SOURCE_SCRIPTS=$1
 
 if [[ -z "${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}" ]]; then
-	# Get the current directory of the main.sh script.
-	LOCAL_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS=$(dirname -- "$0")
-	if [[ "${LOCAL_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}" = "." ]]; then
-		DEFAULT_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS='/opt/lamhaison-tools/helpful-commandlines'
-	fi
+    # Get the current directory of the main.sh script.
+    LOCAL_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS=$(dirname -- "$0")
+    if [[ "${LOCAL_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}" = "." ]]; then
+        DEFAULT_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS='/opt/lamhaison-tools/helpful-commandlines'
+    fi
 
-	export HELPFUL_COMMANDLINES_SOURCE_SCRIPTS="${LOCAL_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS:-${DEFAULT_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}}"
+    export HELPFUL_COMMANDLINES_SOURCE_SCRIPTS="${LOCAL_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS:-${DEFAULT_HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}}"
 else
-	export HELPFUL_COMMANDLINES_SOURCE_SCRIPTS=${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}
+    export HELPFUL_COMMANDLINES_SOURCE_SCRIPTS=${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}
 fi
 
 export LHS_PROJECTS_DIR=~/projects
@@ -32,13 +32,17 @@ export LHS_HELPFUL_LOOKUP_FUNCTIONS_CACHED_EXPIRED_TIME=$((60 * 8))
 # https://yukimemi.netlify.app/all-you-need-is-peco/
 # https://thevaluable.dev/zsh-line-editor-configuration-mouseless/
 for script in $(
-	find "${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}" -type f -name '*.sh' |
-		grep -v -E '.*(main.sh|test.sh|temp.sh|helpful-commandlines.sh)$'
+    find "${HELPFUL_COMMANDLINES_SOURCE_SCRIPTS}" -type f -name '*.sh' \
+        | grep -v -E '.*(main.sh|test.sh|temp.sh|helpful-commandlines.sh)$'
 ); do
 
-	# shellcheck disable=SC1090
-	source "${script}"
+    # shellcheck disable=SC1090
+    source "${script}"
 done
+
+# -1: Disable caching
+# 0: cache without expiration
+# >0: cache with expiration time (in minutes)
 
 export lhs_cli_peco_input_expired_time=10
 export lhs_cli_show_commandline=true
@@ -46,6 +50,10 @@ export lhs_cli_input=/tmp/lhs/inputs
 export lhs_cli_logs=/tmp/lhs/logs
 export lhs_cli_log_file_path="${lhs_cli_logs}/lhs-cli.log"
 export lhs_cli_log_uploaded_file_path="${lhs_cli_logs}/lhs-cli-uploaded.log"
+
+# Retry settings
+
+export ignored_error_when_retry="false"
 
 # For peco settings
 # --initial-filter IgnoreCase|CaseSensitive|SmartCase|Regexp|Fuzzy
@@ -56,31 +64,31 @@ export LHS_PECO_FILTER_TYPE=${5:-'IgnoreCase'}
 
 folder_list=("${lhs_cli_input}" "${lhs_cli_logs}")
 for folder in "${folder_list[@]}"; do
-	if [[ ! -d "$folder" ]]; then
-		mkdir -p "${folder}"
-	fi
+    if [[ ! -d "$folder" ]]; then
+        mkdir -p "${folder}"
+    fi
 done
 
 # Setup binding keys
 LHS_BIND_KEY=${2:-'True'}
 
 if [[ ${LHS_BIND_KEY} == "True" && "$(which zle)" != "" ]]; then
-	# Add hot-keys
-	zle -N lhs_peco_select_history
+    # Add hot-keys
+    zle -N lhs_peco_select_history
 
-	# Using zsh-history-substring-search reserved
-	# bindkey '^r' lhs_peco_select_history
+    # Using zsh-history-substring-search reserved
+    # bindkey '^r' lhs_peco_select_history
 
-	# Option + r
-	bindkey '®' lhs_peco_select_history
+    # Option + r
+    bindkey '®' lhs_peco_select_history
 
-	zle -N lhs_help_all
-	bindkey '^h' lhs_help_all
+    zle -N lhs_help_all
+    bindkey '^h' lhs_help_all
 
-	# Hot key for git commit suggestions
-	zle -N lhs_git_commit_suggestions_with_hint
-	# Hotkey: Option + gc
-	bindkey '©ç' lhs_git_commit_suggestions_with_hint
+    # Hot key for git commit suggestions
+    zle -N lhs_git_commit_suggestions_with_hint
+    # Hotkey: Option + gc
+    bindkey '©ç' lhs_git_commit_suggestions_with_hint
 fi
 
 # Setup for history commandlines feature
@@ -91,27 +99,27 @@ fi
 LHS_CHANGE_HISTORY_SETTINGS=${3:-'True'}
 
 if [[ "${LHS_CHANGE_HISTORY_SETTINGS}" = "True" && "$(which setopt)" != "" ]]; then
-	export HISTFILE="$HOME/.zsh_history"
-	export HISTSIZE=1048576
-	export SAVEHIST=1048576
+    export HISTFILE="$HOME/.zsh_history"
+    export HISTSIZE=1048576
+    export SAVEHIST=1048576
 
-	# ignoredups - Do not record duplicate commands consecutively.
-	# ignoredups - Ignore commands prefixed with a space.
-	# ignoreboth - ignoredups and ignoredups - ignorespace:ignoredups
-	export HISTCONTROL=ignoreboth
+    # ignoredups: Do not record duplicate commands consecutively
+    # ignorespace: Ignore commands prefixed with a space
+    # ignoreboth: Combines both ignoredups and ignorespace
+    export HISTCONTROL=ignoreboth
 
-	setopt BANG_HIST              # Treat the '!' character specially during expansion.
-	setopt EXTENDED_HISTORY       # Write the history file in the ":start:elapsed;command" format.
-	setopt INC_APPEND_HISTORY     # Write to the history file immediately, not when the shell exits.
-	setopt SHARE_HISTORY          # Share history between all sessions.
-	setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history.
+    setopt BANG_HIST              # Treat the '!' character specially during expansion.
+    setopt EXTENDED_HISTORY       # Write the history file in the ":start:elapsed;command" format.
+    setopt INC_APPEND_HISTORY     # Write to the history file immediately, not when the shell exits.
+    setopt SHARE_HISTORY          # Share history between all sessions.
+    setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history.
 
-	setopt HIST_IGNORE_DUPS     # Don't record an entry that was just recorded again.
-	setopt HIST_IGNORE_ALL_DUPS # Delete old recorded entry if new entry is a duplicate.
-	setopt HIST_FIND_NO_DUPS    # Do not display a line previously found.
-	setopt HIST_IGNORE_SPACE    # Don't record an entry starting with a space.
-	setopt HIST_SAVE_NO_DUPS    # Don't write duplicate entries in the history file.
-	setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
-	setopt HIST_VERIFY          # Don't execute immediately upon history expansion.
-	setopt HIST_BEEP            # Beep when accessing nonexistent history.
+    setopt HIST_IGNORE_DUPS     # Don't record an entry that was just recorded again.
+    setopt HIST_IGNORE_ALL_DUPS # Delete old recorded entry if new entry is a duplicate.
+    setopt HIST_FIND_NO_DUPS    # Do not display a line previously found.
+    setopt HIST_IGNORE_SPACE    # Don't record an entry starting with a space.
+    setopt HIST_SAVE_NO_DUPS    # Don't write duplicate entries in the history file.
+    setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
+    setopt HIST_VERIFY          # Don't execute immediately upon history expansion.
+    setopt HIST_BEEP            # Beep when accessing nonexistent history.
 fi
