@@ -1,14 +1,14 @@
 #!/bin/bash
 
 function lhs_help_install_macos_clipboard_instruction() {
-	cat <<-_EOF_
+    cat <<- _EOF_
 		Install clipy
 		Access Shift + command + v
 	_EOF_
 }
 
 function lhs_help_install_macos_peco_instruction() {
-	cat <<-_EOF_
+    cat <<- _EOF_
 		# Install peco
 		brew install peco
 	_EOF_
@@ -17,7 +17,7 @@ function lhs_help_install_macos_peco_instruction() {
 
 function lhs_help_create_os_user_instruction() {
 
-	echo '
+    echo '
 
 		visudo
 		son.lam ALL=(ALL) ALL
@@ -40,6 +40,6 @@ function lhs_help_create_os_user_instruction() {
 }
 
 function lhs_help_cache_disabled_all() {
-	lhs_peco_disable_input_cached
-	peco_aws_disable_input_cached
+    lhs_peco_disable_input_cached
+    peco_aws_disable_input_cached
 }

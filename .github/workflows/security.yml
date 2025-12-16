@@ -48,7 +48,7 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Check shell formatting
-        run: shfmt -i 2 -bn -ci -sr -d .
+        run: shfmt -i 4 -bn -ci -sr -d .
 
   lint:
     name: 📋 Linting & Validation
